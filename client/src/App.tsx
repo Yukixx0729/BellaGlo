@@ -1,21 +1,21 @@
-import React from "react";
 import { ClerkProvider } from "@clerk/clerk-react";
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-
-// if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
-//   throw new Error("Missing Publishable Key");
-// }
-
-// const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
+import Nav from "./components/Nav";
 
 function App() {
+  const publishableKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
   return (
     <>
-      <div>BellaGlo</div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      <div className="header-color text-center py-2">
+        Free delivery national wide over $99{" "}
+      </div>
+      <Nav />
+      <ClerkProvider publishableKey={publishableKey}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </ClerkProvider>
     </>
   );
 }

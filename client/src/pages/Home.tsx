@@ -1,13 +1,5 @@
 function Home() {
-  return (
-    <div>
-      <nav>
-        <ul>
-          <li>Home</li>
-        </ul>
-      </nav>
-    </div>
-  );
+  return <div>ads</div>;
 }
 
 export default Home;
