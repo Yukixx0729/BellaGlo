@@ -1,6 +1,8 @@
+import Account from "./Account";
+
 function Nav() {
   return (
-    <div className="d-flex flex-row justify-content-between nav-container">
+    <div className="d-flex flex-row justify-content-between nav-container px-2">
       <ul className="nav">
         <li className="nav-item">
           <a className="nav-link active" aria-current="page" href="/">
@@ -28,18 +30,7 @@ function Nav() {
           </a>
         </li>
       </ul>
-      <ul className="nav ">
-        <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="/account">
-            My account
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="/cart">
-            Cart
-          </a>
-        </li>
-      </ul>
+      <Account />
     </div>
   );
 }
