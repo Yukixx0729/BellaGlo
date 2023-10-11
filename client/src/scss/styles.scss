@@ -73,6 +73,13 @@ body {
     flex-direction: column;
     flex-wrap: wrap;
   }
+  .order-1 {
+    order: 0 !important;
+  }
+  .px-5 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
   .w-50 {
     width: 100% !important;
   }
