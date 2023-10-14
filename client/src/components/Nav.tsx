@@ -10,8 +10,8 @@ function Nav() {
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/skin">
-            Skin
+          <a className="nav-link" href="/face">
+            face
           </a>
         </li>
         <li className="nav-item">
