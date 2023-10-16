@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { createNewUser, findUser } from "../middleware/Auth";
+import MyAccount from "./MyAccount";
 
 function Account() {
   const user = useUser();
@@ -33,9 +34,10 @@ function Account() {
       <ul className="nav ">
         {isAuthPage ? null : user.isSignedIn ? (
           <li className="nav-item">
-            <a className="nav-link active" aria-current="page" href="/account">
+            <MyAccount />
+            {/* <a className="nav-link active" aria-current="page" href="/account">
               My account
-            </a>
+            </a> */}
           </li>
         ) : (
           <li className="nav-item">
