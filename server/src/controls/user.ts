@@ -37,4 +37,5 @@ router.get("/:id", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Not found" });
   }
 });
+
 export default router;

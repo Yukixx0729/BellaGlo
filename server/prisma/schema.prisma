@@ -23,10 +23,13 @@ model User {
 model Product {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
+  name String
   type String
   price   Int
   sale  Boolean
+  salePrice Int?
   description String
+  imgURL String
 }
 
 model Order {

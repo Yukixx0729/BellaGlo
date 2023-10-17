@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import userRouter from "./controls/user";
+import productRouter from "./controls/product";
 require("dotenv").config();
 
 const app: Application = express();
@@ -13,6 +14,7 @@ app.use(cors());
 
 app.use(httpLoggerMiddleware);
 app.use("/api/users", userRouter);
+app.use("/api/products", productRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

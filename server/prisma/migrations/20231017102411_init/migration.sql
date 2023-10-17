@@ -16,10 +16,13 @@ CREATE TABLE "User" (
 CREATE TABLE "Product" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "name" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
     "sale" BOOLEAN NOT NULL,
+    "salePrice" INTEGER,
     "description" TEXT NOT NULL,
+    "imgURL" TEXT NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
