@@ -10,6 +10,8 @@ import Contactus from "./components/Contactus";
 import Team from "./components/Team";
 import Career from "./components/Career";
 import Signout from "./components/SignOut";
+import Cart from "./components/Cart";
+import Products from "./components/Product";
 
 function App() {
   const publishableKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
@@ -32,6 +34,8 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/career" element={<Career />} />
           <Route path="/sign-out" element={<Signout />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/type/:type" element={<Products />} />
         </Routes>
       </ClerkProvider>
       <Footer />

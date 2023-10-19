@@ -128,3 +128,28 @@ body {
 .core p {
   font-size: 18px;
 }
+
+//product
+.brand-type {
+  background: linear-gradient(
+    90deg,
+    rgba(228, 230, 230, 1) 0%,
+    rgba(217, 217, 217, 1) 51%
+  );
+  font-family: "Inconsolata", monospace;
+}
+
+.brand-type h3 {
+  text-decoration: underline;
+}
+
+//product
+.product-container {
+  width: 18rem;
+  font-family: "Imprima", sans-serif;
+  background-color: rgba(249, 242, 242, 0.821);
+}
+
+.product-container img {
+  height: 22rem;
+}

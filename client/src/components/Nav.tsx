@@ -10,22 +10,22 @@ function Nav() {
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/face">
-            face
+          <a className="nav-link" href="/type/face">
+            Face
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/body">
+          <a className="nav-link" href="/type/body">
             Body
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link " href="/hair">
+          <a className="nav-link " href="/type/hair">
             Hair
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link " href="/sale">
+          <a className="nav-link " href="/type/sale">
             Sale
           </a>
         </li>

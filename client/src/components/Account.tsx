@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { createNewUser, findUser } from "../middleware/Auth";
 import MyAccount from "./MyAccount";
 
+type userDataType = {
+  id: string;
+  emailAddress: string;
+};
+
 function Account() {
   const user = useUser();
-  // const [user, setUser] = useState(" ");
-  const [isLogin, setIsLogin] = useState(false);
   const location = useLocation();
   const isAuthPage =
     location.pathname === "/sign-in" || location.pathname === "/sign-up";
@@ -15,7 +18,8 @@ function Account() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const { id, emailAddress } = user.user.primaryEmailAddress;
+        const { id, emailAddress } =
+          (user.user?.primaryEmailAddress as userDataType) || null;
         const matchUser = await findUser(`${id}`);
         console.log(matchUser);
         if (!matchUser) {
@@ -35,9 +39,6 @@ function Account() {
         {isAuthPage ? null : user.isSignedIn ? (
           <li className="nav-item">
             <MyAccount />
-            {/* <a className="nav-link active" aria-current="page" href="/account">
-              My account
-            </a> */}
           </li>
         ) : (
           <li className="nav-item">
