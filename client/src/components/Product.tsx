@@ -17,7 +17,6 @@ function Products() {
   useEffect(() => {
     const getAllProducts = async (type: string) => {
       try {
-        console.log(type === "sale");
         if (type === "sale") {
           const res = await fetch(`http://localhost:3000/api/products/sale`);
           const data = await res.json();
@@ -77,7 +76,7 @@ function Products() {
                   )}
 
                   <a href="#" className="btn btn-primary">
-                    Saved the product
+                    Save the product
                   </a>
                   <a href="#" className="btn btn-primary">
                     Add to cart
@@ -118,7 +117,7 @@ function Products() {
                   )}
 
                   <a href="#" className="btn btn-primary">
-                    Saved the product
+                    Save the product
                   </a>
                   <a href="#" className="btn btn-primary">
                     Add to cart

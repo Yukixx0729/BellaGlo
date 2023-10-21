@@ -7,7 +7,7 @@ const products = [
       "Infused with Powerful Vitamin C, E, and Superior Moisture Shield",
       "Against ageing and wrinkle issues.",
     ],
-    url: "/rose",
+    url: "/series/rose",
   },
   {
     src: "/5.avif",
@@ -17,7 +17,7 @@ const products = [
       "Nourish your skin with this botanical wonder, renowned for its moisturizing and skin-balancing properties. ",
       "Reveal your timeless beauty.",
     ],
-    url: "/jojoba",
+    url: "/series/jojoba",
   },
   {
     src: "/6.avif",
@@ -27,7 +27,7 @@ const products = [
       "Combat the signs of aging and maintains your youthful glow.",
       "Against ageing and wrinkle issues.",
     ],
-    url: "/greentea",
+    url: "/series/greentea",
   },
 ];
 

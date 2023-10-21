@@ -12,6 +12,7 @@ import Career from "./components/Career";
 import Signout from "./components/SignOut";
 import Cart from "./components/Cart";
 import Products from "./components/Product";
+import Series from "./components/Series";
 
 function App() {
   const publishableKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
@@ -36,6 +37,7 @@ function App() {
           <Route path="/sign-out" element={<Signout />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/type/:type" element={<Products />} />
+          <Route path="/series/:series" element={<Series />} />
         </Routes>
       </ClerkProvider>
       <Footer />

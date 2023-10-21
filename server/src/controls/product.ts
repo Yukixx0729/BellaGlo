@@ -76,6 +76,34 @@ router.get("/sale", async (req: Request, res: Response) => {
   }
 });
 
+//get prdoucts by keywords
+router.get("/series/:series", async (req: Request, res: Response) => {
+  const { series } = req.params;
+  const firstLetter = series.charAt(0).toUpperCase();
+
+  const keyword = firstLetter + series.slice(1);
+  try {
+    const selectedProducts = await prisma.product.findMany({
+      where: {
+        OR: [
+          {
+            name: {
+              contains: keyword,
+            },
+          },
+        ],
+      },
+    });
+    if (selectedProducts) {
+      res.json(selectedProducts);
+    } else {
+      res.status(404).json({ message: "not product found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Not found" });
+  }
+});
+
 //delete a product
 
 //edit a product

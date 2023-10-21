@@ -153,3 +153,11 @@ body {
 .product-container img {
   height: 22rem;
 }
+
+.series-img {
+  background: linear-gradient(
+    90deg,
+    rgba(228, 230, 230, 1) 0%,
+    rgba(217, 217, 217, 1) 51%
+  );
+}
