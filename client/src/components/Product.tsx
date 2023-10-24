@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useCart } from "../middleware/CartContext";
 
 type ProductType = {
   id: number;
@@ -10,7 +11,12 @@ type ProductType = {
   imgURL: string;
 };
 
+export const handleAddCart = async (id: string) => {
+  console.log(id);
+};
+
 function Products() {
+  const { addToCart } = useCart();
   const { type } = useParams();
   const [products, setProducts] = useState<ProductType[] | null>(null);
 
@@ -75,12 +81,16 @@ function Products() {
                     </div>
                   )}
 
-                  <a href="#" className="btn btn-primary">
-                    Save the product
-                  </a>
-                  <a href="#" className="btn btn-primary">
+                  <button className="btn btn-primary">Save the product</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      handleAddCart(`${product.id}`);
+                      addToCart();
+                    }}
+                  >
                     Add to cart
-                  </a>
+                  </button>
                 </div>
               </div>
             );
@@ -116,12 +126,8 @@ function Products() {
                     </div>
                   )}
 
-                  <a href="#" className="btn btn-primary">
-                    Save the product
-                  </a>
-                  <a href="#" className="btn btn-primary">
-                    Add to cart
-                  </a>
+                  <button className="btn btn-primary">Save the product</button>
+                  <button className="btn btn-primary">Add to cart</button>
                 </div>
               </div>
             );

@@ -1,5 +1,7 @@
 // import { useUser } from "@clerk/clerk-react";
 
+import { createContext, useContext } from "react";
+
 export const findUser = async (id: string) => {
   try {
     const res = await fetch(`http://localhost:3000/api/users/${id}`);

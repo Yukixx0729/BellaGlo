@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { createNewUser, findUser } from "../middleware/Auth";
 import MyAccount from "./MyAccount";
+import { useCart } from "../middleware/CartContext";
 
 type userDataType = {
   id: string;
@@ -10,6 +11,7 @@ type userDataType = {
 };
 
 function Account() {
+  const { cartCount } = useCart();
   const user = useUser();
   const location = useLocation();
   const isAuthPage =
@@ -50,7 +52,7 @@ function Account() {
 
         <li className="nav-item">
           <a className="nav-link active" aria-current="page" href="/cart">
-            Cart
+            cart ({cartCount})
           </a>
         </li>
       </ul>

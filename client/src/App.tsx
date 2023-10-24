@@ -10,7 +10,7 @@ import Contactus from "./components/Contactus";
 import Team from "./components/Team";
 import Career from "./components/Career";
 import Signout from "./components/SignOut";
-import Cart from "./components/Cart";
+import { CartProvider } from "./middleware/CartContext";
 import Products from "./components/Product";
 import Series from "./components/Series";
 
@@ -20,25 +20,25 @@ function App() {
   return (
     <>
       <ClerkProvider publishableKey={publishableKey}>
-        <div className="header-color text-center py-2">
-          Free delivery national wide over $99{" "}
-        </div>
+        <CartProvider>
+          <div className="header-color text-center py-2">
+            Free delivery national wide over $99{" "}
+          </div>
+          <Nav />
 
-        <Nav />
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/sign-in" element={<Signin />} />
-          <Route path="/sign-up" element={<Signup />} />
-          <Route path="/about" element={<Aboutus />} />
-          <Route path="/contact" element={<Contactus />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/career" element={<Career />} />
-          <Route path="/sign-out" element={<Signout />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/type/:type" element={<Products />} />
-          <Route path="/series/:series" element={<Series />} />
-        </Routes>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/sign-in" element={<Signin />} />
+            <Route path="/sign-up" element={<Signup />} />
+            <Route path="/about" element={<Aboutus />} />
+            <Route path="/contact" element={<Contactus />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/career" element={<Career />} />
+            <Route path="/sign-out" element={<Signout />} />
+            <Route path="/type/:type" element={<Products />} />
+            <Route path="/series/:series" element={<Series />} />
+          </Routes>
+        </CartProvider>
       </ClerkProvider>
       <Footer />
     </>
