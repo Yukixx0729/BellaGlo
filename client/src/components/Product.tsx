@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCart } from "../middleware/CartContext";
+import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 type ProductType = {
   id: number;
@@ -11,12 +13,10 @@ type ProductType = {
   imgURL: string;
 };
 
-export const handleAddCart = async (id: string) => {
-  console.log(id);
-};
-
 function Products() {
-  const { addToCart } = useCart();
+  const navigate = useNavigate();
+  const user = useUser();
+  const { addToCartWithUser } = useCart();
   const { type } = useParams();
   const [products, setProducts] = useState<ProductType[] | null>(null);
 
@@ -35,8 +35,6 @@ function Products() {
           const data = await res.json();
           setProducts(data);
         }
-
-        console.log(products);
       } catch (error) {
         console.error("Error in fetch:", error);
       }
@@ -84,9 +82,10 @@ function Products() {
                   <button className="btn btn-primary">Save the product</button>
                   <button
                     className="btn btn-primary"
-                    onClick={() => {
-                      handleAddCart(`${product.id}`);
-                      addToCart();
+                    onClick={async () => {
+                      user.isSignedIn
+                        ? await addToCartWithUser(`${`${product.id}`}`)
+                        : navigate("/sign-in");
                     }}
                   >
                     Add to cart

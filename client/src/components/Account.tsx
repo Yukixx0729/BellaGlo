@@ -6,7 +6,6 @@ import MyAccount from "./MyAccount";
 import { useCart } from "../middleware/CartContext";
 
 type userDataType = {
-  id: string;
   emailAddress: string;
 };
 
@@ -20,13 +19,15 @@ function Account() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const { id, emailAddress } =
-          (user.user?.primaryEmailAddress as userDataType) || null;
-        const matchUser = await findUser(`${id}`);
-        console.log(matchUser);
-        if (!matchUser) {
-          const newUser = await createNewUser(`${id}`, `${emailAddress}`);
-          console.log(newUser);
+        if (user.isSignedIn) {
+          const { emailAddress } =
+            (user.user.primaryEmailAddress as userDataType) || null;
+          const { id } = user.user;
+          const matchUser = await findUser(`${id}`);
+          if (!matchUser) {
+            const newUser = await createNewUser(`${id}`, `${emailAddress}`);
+            console.log(newUser);
+          }
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -39,9 +40,16 @@ function Account() {
     <>
       <ul className="nav ">
         {isAuthPage ? null : user.isSignedIn ? (
-          <li className="nav-item">
-            <MyAccount />
-          </li>
+          <div className="d-flex flex-row">
+            <li className="nav-item">
+              <MyAccount />
+            </li>
+            <li className="nav-item">
+              <a className="nav-link active" aria-current="page" href="/cart">
+                cart ({cartCount})
+              </a>
+            </li>
+          </div>
         ) : (
           <li className="nav-item">
             <a className="nav-link active" aria-current="page" href="/sign-in">
@@ -49,12 +57,6 @@ function Account() {
             </a>
           </li>
         )}
-
-        <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="/cart">
-            cart ({cartCount})
-          </a>
-        </li>
       </ul>
     </>
   );

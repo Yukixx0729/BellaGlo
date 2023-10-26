@@ -8,9 +8,11 @@ const router = express.Router();
 router.post("/", async (req: Request, res: Response) => {
   try {
     const { userId, productId } = req.body;
+    console.log(userId, productId);
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });
+
     if (user) {
       const newItem = await prisma.cart.create({
         data: {
@@ -24,9 +26,7 @@ router.post("/", async (req: Request, res: Response) => {
       res.status(404).json({ message: "User not found." });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while creating the order." });
+    res.status(500).json({ error: "An error occurred while adding to cart." });
   }
 });
 
@@ -41,9 +41,7 @@ router.get("/:cartId", async (req: Request, res: Response) => {
     });
     res.status(200).json(cartData);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while creating the order." });
+    res.status(500).json({ error: "An error occurred while adding to cart." });
   }
 });
 

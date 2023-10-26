@@ -1,28 +1,69 @@
 import { useUser } from "@clerk/clerk-react";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { findUser } from "./Auth";
 
-const CartContext = createContext({});
+type CartContextType = {
+  cartCount: number;
 
-export const CartProvider = ({ children }: any) => {
+  addToCartWithUser: (productId: string) => Promise<void>;
+};
+
+const CartContext = createContext<CartContextType | undefined>(undefined);
+
+export const CartProvider: React.FC = ({ children }: any) => {
   const user = useUser();
-
   const [cartCount, setCartCount] = useState(0);
 
-  const addToCart = () => {
-    setCartCount((prevCount) => prevCount + 1);
-  };
+  useEffect(() => {
+    const fetchCartCount = async () => {
+      if (user.isSignedIn) {
+        const userData = await findUser(`${user.user.id}`);
+        if (userData.cart[0]) {
+          setCartCount(userData.cart[0].product.length);
+        }
+      }
+    };
 
-  const addToCartWithUser = async () => {
-    const res = await fetch("");
+    fetchCartCount();
+  }, [user]);
+
+  const addToCartWithUser = async (productId: string) => {
+    if (user.isSignedIn) {
+      const userData = await findUser(`${user.user.id}`);
+      if (userData.cart[0]) {
+        const res = await fetch(
+          `http://localhost:3000/api/cart/${userData.cart[0].id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ productId: productId }),
+          }
+        );
+        const data = await res.json();
+        setCartCount(data.product.length);
+      } else {
+        const res = await fetch(`http://localhost:3000/api/cart`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: userData.id, productId: [productId] }),
+        });
+        const data = await res.json();
+        setCartCount(data.product.length);
+      }
+    }
   };
 
   return (
-    <CartContext.Provider value={{ cartCount, addToCart }}>
+    <CartContext.Provider value={{ cartCount, addToCartWithUser }}>
       {children}
     </CartContext.Provider>
   );
 };
 
 export const useCart = () => {
-  return useContext(CartContext);
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error("useCart must be used within a CartProvider");
+  }
+  return context;
 };

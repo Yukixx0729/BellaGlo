@@ -1,7 +1,3 @@
-// import { useUser } from "@clerk/clerk-react";
-
-import { createContext, useContext } from "react";
-
 export const findUser = async (id: string) => {
   try {
     const res = await fetch(`http://localhost:3000/api/users/${id}`);
@@ -15,7 +11,6 @@ export const findUser = async (id: string) => {
 };
 
 export const createNewUser = async (authId: string, email: string) => {
-  console.log("?");
   const res = await fetch("http://localhost:3000/api/users", {
     method: "POST",
     headers: {

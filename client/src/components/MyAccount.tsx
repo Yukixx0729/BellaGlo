@@ -20,6 +20,11 @@ function MyAccount() {
           </a>
         </li>
         <li>
+          <a className="dropdown-item text-center" href="/saved">
+            Saved Items
+          </a>
+        </li>
+        <li>
           <a className="dropdown-item text-center" href="/sign-out">
             sign out
           </a>

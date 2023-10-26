@@ -17,7 +17,7 @@ model User {
   authId String      @unique
   email   String      @unique
   order Order[]
-  cart Cart[]
+  cart Cart[] 
 }
 
 model Product {
@@ -39,13 +39,13 @@ model Order {
   address String
   phone Int
   note String?
-  buyer User  @relation(fields: [buyerId], references: [id])
+  buyer User  @relation(fields: [buyerId], references: [id],onDelete: Cascade)
   buyerId   String
 }
 
 model Cart {
   id      String   @id @default(uuid())
-  user    User     @relation(fields: [userId], references: [id])
+  user    User     @relation( fields: [userId], references: [id], onDelete: Cascade)
   userId  String
   product String[]
 }
