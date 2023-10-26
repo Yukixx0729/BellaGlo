@@ -13,6 +13,7 @@ import Signout from "./components/SignOut";
 import { CartProvider } from "./middleware/CartContext";
 import Products from "./components/Product";
 import Series from "./components/Series";
+import CartDisplay from "./components/CartDisplay";
 
 function App() {
   const publishableKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
@@ -37,6 +38,7 @@ function App() {
             <Route path="/sign-out" element={<Signout />} />
             <Route path="/type/:type" element={<Products />} />
             <Route path="/series/:series" element={<Series />} />
+            <Route path="/cart/:id" element={<CartDisplay />} />
           </Routes>
         </CartProvider>
       </ClerkProvider>

@@ -161,3 +161,17 @@ body {
     rgba(217, 217, 217, 1) 51%
   );
 }
+
+//shopping cart
+.cart-img {
+  width: 150px;
+  height: auto;
+  padding: 3px;
+  border: #bed9e0;
+}
+
+.cart-header {
+  font-family: "Inconsolata", monospace;
+  font-weight: bold;
+  text-decoration: underline;
+}

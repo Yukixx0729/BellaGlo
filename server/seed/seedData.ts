@@ -70,7 +70,7 @@ const products = [
     imgURL: "/18.avif",
   },
   {
-    name: "BellaGlo Green Tea Moisturiser - 200ml",
+    name: "BellaGlo Greentea Moisturiser - 200ml",
     type: "face",
     price: 59.99,
     sale: true,
@@ -80,7 +80,7 @@ const products = [
     imgURL: "/26.avif",
   },
   {
-    name: "BellaGlo Green Tea Night Cream - 50g",
+    name: "BellaGlo Greentea Night Cream - 50g",
     type: "face",
     price: 59.99,
     sale: false,
@@ -90,7 +90,7 @@ const products = [
     imgURL: "/22.avif",
   },
   {
-    name: "BellaGlo Green Tea Body Scrub - 200g",
+    name: "BellaGlo Greentea Body Scrub - 200g",
     type: "body",
     price: 39.99,
     sale: false,

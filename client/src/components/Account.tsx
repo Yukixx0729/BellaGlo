@@ -10,7 +10,7 @@ type userDataType = {
 };
 
 function Account() {
-  const { cartCount } = useCart();
+  const { cartCount, cartId } = useCart();
   const user = useUser();
   const location = useLocation();
   const isAuthPage =
@@ -45,7 +45,11 @@ function Account() {
               <MyAccount />
             </li>
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/cart">
+              <a
+                className="nav-link active"
+                aria-current="page"
+                href={`/cart/${cartId}`}
+              >
                 cart ({cartCount})
               </a>
             </li>

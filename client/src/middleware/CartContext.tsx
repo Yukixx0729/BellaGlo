@@ -4,7 +4,7 @@ import { findUser } from "./Auth";
 
 type CartContextType = {
   cartCount: number;
-
+  cartId: string;
   addToCartWithUser: (productId: string) => Promise<void>;
 };
 
@@ -13,12 +13,14 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC = ({ children }: any) => {
   const user = useUser();
   const [cartCount, setCartCount] = useState(0);
+  const [cartId, setCartId] = useState("");
 
   useEffect(() => {
     const fetchCartCount = async () => {
       if (user.isSignedIn) {
         const userData = await findUser(`${user.user.id}`);
         if (userData.cart[0]) {
+          setCartId(userData.cart[0].id);
           setCartCount(userData.cart[0].product.length);
         }
       }
@@ -54,7 +56,7 @@ export const CartProvider: React.FC = ({ children }: any) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartCount, addToCartWithUser }}>
+    <CartContext.Provider value={{ cartCount, cartId, addToCartWithUser }}>
       {children}
     </CartContext.Provider>
   );
