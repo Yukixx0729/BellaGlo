@@ -43,11 +43,11 @@ model Order {
   buyerId   String
 }
 
-model Cart{
-id String   @id @default(uuid())
- user   User   @relation(fields: [userId], references: [id])
- userId String
- product String[]
+model Cart {
+  id      String   @id @default(uuid())
+  user    User     @relation(fields: [userId], references: [id])
+  userId  String
+  product String[]
 }
 
 
