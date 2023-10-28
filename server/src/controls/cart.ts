@@ -69,7 +69,44 @@ router.put("/:cartId", async (req: Request, res: Response) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: "An error occurred while creating the order." });
+      .json({ error: "An error occurred while updating the cart." });
+  }
+});
+
+//update the whole cart
+router.put("/update/:cartId", async (req: Request, res: Response) => {
+  try {
+    const { cartId } = req.params;
+    const { productId } = req.body;
+    const exisitingCart = await prisma.cart.findUnique({
+      where: {
+        id: cartId,
+      },
+    });
+    console.log(exisitingCart);
+    if (exisitingCart) {
+      const index = exisitingCart.product.findIndex(
+        (product) => product === productId
+      );
+      console.log(index);
+      if (index !== -1) {
+        console.log(exisitingCart.product);
+        exisitingCart.product.splice(index, 1);
+        const updatedCart = await prisma.cart.update({
+          where: {
+            id: cartId,
+          },
+          data: {
+            product: exisitingCart.product,
+          },
+        });
+        res.status(201).json(updatedCart);
+      }
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the cart." });
   }
 });
 

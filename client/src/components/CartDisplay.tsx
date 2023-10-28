@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useCart } from "../middleware/CartContext";
 
 type CartProductType = {
   id: string;
@@ -11,15 +12,47 @@ type CartProductType = {
   description: string;
   count: number;
 };
+type PriceType = {
+  amount: string;
+  gst: string;
+  total: string;
+};
 
 function CartDisplay() {
+  const navigate = useNavigate();
   const { id } = useParams();
+  const { addToCartWithUser, removeProduct } = useCart();
+  const [price, setPrice] = useState<PriceType | null>(null);
   const [productData, setProductData] = useState<CartProductType[] | null>(
     null
   );
 
-  const handleAdding = async () => {};
-  const handleMinus = async () => {};
+  const handleAdding = async (id: string) => {
+    await addToCartWithUser(`${id}`);
+    if (productData) {
+      const updatedProductData = productData.map((product) => {
+        if (product.id === id) {
+          product.count = product.count + 1;
+        }
+        return product;
+      });
+      setProductData(updatedProductData);
+    }
+  };
+
+  const handleMinus = async (id: string) => {
+    await removeProduct(`${id}`);
+    if (productData) {
+      const updatedProductData = productData.map((product) => {
+        if (product.id === id && product.count >= 1) {
+          product.count = product.count - 1;
+        }
+        return product;
+      });
+      setProductData(updatedProductData);
+    }
+  };
+
   const handleCheckout = async () => {};
 
   useEffect(() => {
@@ -39,7 +72,6 @@ function CartDisplay() {
           (item) => item.id === product.id
         );
         if (existingProduct) {
-          console.log(sortedProduct.find((item) => item.id === product.id));
           existingProduct.count += 1;
         } else {
           sortedProduct.push({
@@ -59,42 +91,90 @@ function CartDisplay() {
     fetchCartData(`${id}`);
   }, []);
 
+  useEffect(() => {
+    const updatedPrice = async () => {
+      let amount = productData
+        ?.reduce((total, item) => {
+          if (item.sale) {
+            total += item.count * item.salePrice;
+          } else {
+            total += item.count * item.price;
+          }
+          return total;
+        }, 0)
+        .toFixed(2);
+
+      if (amount) {
+        let gst = ((Number(amount) * 10) / 100).toFixed(2);
+        let total = (Number(amount) * 1.1).toFixed(2);
+        setPrice({
+          amount,
+          gst,
+          total,
+        });
+      }
+      console.log(price);
+    };
+    updatedPrice();
+  }, [productData]);
+
   return (
-    <div className="d-flex flex-column mx-5 my-4">
-      <h2 className="cart-header">My Cart</h2>
+    <div className="d-flex flex-column  my-4 mx-5 ">
+      <h2 className="cart-header ">My Cart</h2>
       {productData &&
         productData.map((product) => {
-          return (
-            <div key={product.id} className="d-flex flex-row  gap-2 py-2">
-              <img
-                src={product.imgURL}
-                alt="product"
-                className="cart-img img-fluid"
-              />
-              <div className="d-flex flex-column align-self-center">
-                <p>{product.name}</p>
+          if (product.count > 0) {
+            return (
+              <div
+                key={product.id}
+                className="d-flex flex-row  justify-content-between py-2 px-3 "
+              >
+                <div className="d-flex flex-row  gap-5">
+                  <img
+                    src={product.imgURL}
+                    alt="product"
+                    className="cart-img img-fluid"
+                  />
+                  <div className="d-flex flex-column align-self-center">
+                    <p>{product.name}</p>
 
-                {product.sale ? (
-                  <p className="text-danger">Sale Price:${product.salePrice}</p>
-                ) : (
-                  <p>${product.price}</p>
-                )}
+                    {product.sale ? (
+                      <p className="text-danger">
+                        Sale Price:${product.salePrice.toFixed(2)}
+                      </p>
+                    ) : (
+                      <p>${product.price.toFixed(2)}</p>
+                    )}
+                  </div>
 
-                <p>{product.description}</p>
+                  {/* <p>{product.description}</p> */}
+                </div>
+                <div className=" d-flex flex-row align-self-center ">
+                  {" "}
+                  <button
+                    onClick={() => {
+                      handleAdding(`${product.id}`);
+                    }}
+                  >
+                    +
+                  </button>
+                  <span className="px-1">{product.count}</span>
+                  <button
+                    onClick={() => {
+                      handleMinus(`${product.id}`);
+                    }}
+                  >
+                    -
+                  </button>
+                </div>
               </div>
-              <div className="flex-fill d-flex flex-row align-items-center">
-                {" "}
-                <button onClick={handleAdding}>+</button>
-                <span className="px-1">{product.count}</span>
-                <button onClick={handleMinus}>-</button>
-              </div>
-            </div>
-          );
+            );
+          }
         })}
-      <div className="d-flex flex-column justify-content-end align-items-end ">
-        <p>Amount: $999.00</p>
-        <p>GST: $99.00</p>
-        <p>Total: $199.00</p>
+      <div className="d-flex flex-column justify-content-end align-items-end px-2">
+        <p>Amount: ${price && price.amount}</p>
+        <p>GST: ${price && price.gst}</p>
+        <p>Total: ${price && price.total}</p>
         <button
           onClick={handleCheckout}
           className="btn btn-outline-primary btn-lg"

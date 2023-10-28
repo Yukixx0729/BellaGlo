@@ -2,7 +2,7 @@ function MyAccount() {
   return (
     <div className="dropdown">
       <button
-        className="btn  dropdown-toggle dropdown-btn"
+        className="btn  dropdown-toggle dropdown-btn nav-link"
         type="button"
         data-bs-toggle="dropdown"
       >

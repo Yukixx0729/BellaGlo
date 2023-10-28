@@ -43,11 +43,27 @@ body {
   );
 }
 
+.products-container {
+  margin: 0 auto;
+}
 //products ad
-.product-ad {
+.products-ad {
   font-family: "Inconsolata", monospace;
+  max-width: 1300px;
+
+  margin: 0 auto;
 }
 
+.product-description {
+  min-width: 50%;
+}
+
+.product-img {
+  object-fit: cover;
+  object-position: center;
+  min-width: 40%;
+  // max-width: 500px;
+}
 .product-link {
   text-decoration: none;
   background-color: #bed9e0;

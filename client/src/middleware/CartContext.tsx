@@ -6,6 +6,7 @@ type CartContextType = {
   cartCount: number;
   cartId: string;
   addToCartWithUser: (productId: string) => Promise<void>;
+  removeProduct: (productId: string) => Promise<void>;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -54,9 +55,28 @@ export const CartProvider: React.FC = ({ children }: any) => {
       }
     }
   };
+  const removeProduct = async (productId: string) => {
+    if (user.isSignedIn) {
+      const userData = await findUser(`${user.user.id}`);
+      if (userData.cart[0]) {
+        const res = await fetch(
+          `http://localhost:3000/api/cart/update/${userData.cart[0].id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ productId: productId }),
+          }
+        );
+        const data = await res.json();
+        setCartCount(data.product.length);
+      }
+    }
+  };
 
   return (
-    <CartContext.Provider value={{ cartCount, cartId, addToCartWithUser }}>
+    <CartContext.Provider
+      value={{ cartCount, cartId, addToCartWithUser, removeProduct }}
+    >
       {children}
     </CartContext.Provider>
   );

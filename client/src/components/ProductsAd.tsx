@@ -33,26 +33,27 @@ const products = [
 
 function ProductsAd() {
   return (
-    <div>
+    <div className="products-container">
       {products.map((product, index) => {
         return (
-          <div className="d-flex flex-row px-5 py-4 align-items-stretch justify-content-center products-ad">
+          <div className="d-flex flex-row px-5 py-4 justify-content-center products-ad ">
             <img
               src={product.src}
               alt="product ad"
-              className={`h-50 w-50 rounded products-img ${
+              className={`rounded product-img ${
                 index % 2 === 0 ? "order-1" : null
               }`}
             />
-            <div className="card px-5  product-card">
-              <div className="card-body ">
-                <h5 className="card-title py-2">{product.text[0]}</h5>
+
+            <div className="card px-3 product-description ">
+              <div className="card-body d-flex flex-column  justify-content-center align-items-center text-center">
+                <h3 className="card-title py-2">{product.text[0]}</h3>
                 <p className="card-text py-1">{product.text[1]}</p>
                 <p className="card-text py-1">{product.text[2]}</p>
                 <p className="card-text py-1">{product.text[3]}</p>
                 <a
                   href={product.url}
-                  className="card-link py-1 product-link  px-3"
+                  className="card-link py-1 product-link  px-3 align-self-center"
                 >
                   Explore now
                 </a>
