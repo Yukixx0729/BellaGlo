@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import userRouter from "./controls/user";
 import productRouter from "./controls/product";
 import cartRouter from "./controls/cart";
+import ordersRouter from "./controls/order";
 require("dotenv").config();
 
 const app: Application = express();
@@ -17,6 +18,7 @@ app.use(httpLoggerMiddleware);
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/orders", ordersRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

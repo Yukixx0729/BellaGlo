@@ -20,6 +20,21 @@ model User {
   cart Cart[] 
 }
 
+
+
+model Order {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  amount Int
+  address String
+  phone String
+  name String
+  note String?
+  buyer User  @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  buyerId   String
+  products ProductOrder[]
+}
+
 model Product {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
@@ -30,18 +45,17 @@ model Product {
   salePrice Int?
   description String
   imgURL String
+  orders   ProductOrder[]
 }
 
-model Order {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  amount Int
-  address String
-  phone Int
-  note String?
-  buyer User  @relation(fields: [buyerId], references: [id],onDelete: Cascade)
-  buyerId   String
+model ProductOrder {
+  id      String @id @default(uuid())
+  product Product @relation(fields: [productId], references: [id])
+  productId String
+  order   Order @relation(fields: [orderId], references: [id])
+  orderId String
 }
+
 
 model Cart {
   id      String   @id @default(uuid())

@@ -19,8 +19,8 @@ type PriceType = {
 };
 
 function CartDisplay() {
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
   const { addToCartWithUser, removeProduct } = useCart();
   const [price, setPrice] = useState<PriceType | null>(null);
   const [productData, setProductData] = useState<CartProductType[] | null>(
@@ -53,7 +53,7 @@ function CartDisplay() {
     }
   };
 
-  const handleCheckout = async () => {};
+  // const handleCheckout = async (id: string) => {};
 
   useEffect(() => {
     const fetchCartData = async (id: string) => {
@@ -87,6 +87,7 @@ function CartDisplay() {
         }
       });
       setProductData(sortedProduct);
+      console.log(sortedProduct);
     };
     fetchCartData(`${id}`);
   }, []);
@@ -113,7 +114,6 @@ function CartDisplay() {
           total,
         });
       }
-      console.log(price);
     };
     updatedPrice();
   }, [productData]);
@@ -175,8 +175,13 @@ function CartDisplay() {
         <p>Amount: ${price && price.amount}</p>
         <p>GST: ${price && price.gst}</p>
         <p>Total: ${price && price.total}</p>
+
         <button
-          onClick={handleCheckout}
+          onClick={() => {
+            navigate(`/checkout/${id}`, {
+              state: { productData: productData, price: price },
+            });
+          }}
           className="btn btn-outline-primary btn-lg"
         >
           Check out
