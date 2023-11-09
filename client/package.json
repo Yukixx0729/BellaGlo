@@ -12,6 +12,8 @@
   "dependencies": {
     "@clerk/clerk-react": "^4.26.3",
     "@popperjs/core": "^2.11.8",
+    "@stripe/react-stripe-js": "^2.3.1",
+    "@stripe/stripe-js": "^2.1.11",
     "bootstrap": "^5.3.2",
     "dotenv": "^16.3.1",
     "react": "^18.2.0",

@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useCart } from "../middleware/CartContext";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 type ProductType = {
   id: number;
@@ -17,7 +20,10 @@ const seriesPic = [
 ];
 
 function Series() {
+  const navigate = useNavigate();
   const { series } = useParams();
+  const user = useUser();
+  const { addToCartWithUser } = useCart();
   const img = seriesPic.filter((item) => item.name === series);
   const [seriesData, setSeriesData] = useState<ProductType[] | null>(null);
 
@@ -80,9 +86,16 @@ function Series() {
                   <a href="#" className="btn btn-primary">
                     Save the product
                   </a>
-                  <a href="#" className="btn btn-primary">
+                  <button
+                    onClick={async () => {
+                      user.isSignedIn
+                        ? await addToCartWithUser(`${`${product.id}`}`)
+                        : navigate("/sign-in");
+                    }}
+                    className="btn btn-primary"
+                  >
                     Add to cart
-                  </a>
+                  </button>
                 </div>
               </div>
             );

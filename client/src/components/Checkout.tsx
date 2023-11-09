@@ -1,4 +1,7 @@
 import { useLocation } from "react-router-dom";
+import { useRef } from "react";
+import { useUser } from "@clerk/clerk-react";
+import { findUser } from "../middleware/Auth";
 
 type ProductData = {
   id: string;
@@ -11,12 +14,59 @@ type ProductData = {
   count: number;
 };
 
-function CheckOut() {
-  const location = useLocation();
+type OrderDetails = {
+  userId: string;
+  amount: string;
+  address: string;
+  number: string;
+  name: string;
+  phone: string;
+  note: string;
+  products: Product[];
+};
 
-  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+type Product = {
+  productId: string;
+};
+
+function CheckOut() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const location = useLocation();
+  const user = useUser();
+  console.log(user);
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const products: Product[] = [];
+    location.state.productData.map((product: ProductData) =>
+      products.push({ productId: product.id })
+    );
+    const orderDetails = Object.fromEntries(new FormData(e.currentTarget));
+    orderDetails["products"] = products;
+    orderDetails["amount"] = Number(location.state.price.total);
+    const { id } = await findUser(`${user.user.id}`);
+    orderDetails["userId"] = id;
+    console.log(orderDetails);
+    const res = await fetch("http://localhost:3000/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderDetails),
+    });
+    const data = await res.json();
+
+    if (res.status !== 201) {
+      throw {
+        status: res.status,
+        message: data.message,
+      };
+    }
+    //delete the cart id
+    if (formRef.current) {
+      formRef.current.reset();
+    }
   };
+
   return (
     <div className="d-flex flex-column  my-4 mx-5 ">
       <h2>Order details</h2>
@@ -80,7 +130,7 @@ function CheckOut() {
             </div>
             <div>
               <label>Recevier Phone</label>
-              <input type="text" name="number" />
+              <input type="text" name="phone" />
             </div>
             <div>
               {" "}

@@ -3,6 +3,7 @@ import userRouter from "./controls/user";
 import productRouter from "./controls/product";
 import cartRouter from "./controls/cart";
 import ordersRouter from "./controls/order";
+// import stripeRouter from "./controls/stripe";
 require("dotenv").config();
 
 const app: Application = express();
@@ -19,7 +20,7 @@ app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/orders", ordersRouter);
-
+// app.use("/api/payment", stripeRouter);
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
