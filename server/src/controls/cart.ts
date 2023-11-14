@@ -110,4 +110,18 @@ router.put("/update/:cartId", async (req: Request, res: Response) => {
   }
 });
 
+//delete a cart
+router.delete("/:cartId", async (req: Request, res: Response) => {
+  const { cartId } = req.params;
+  try {
+    const deletedCart = await prisma.cart.delete({
+      where: { id: cartId },
+    });
+    res.status(200).json({ message: "Deleted." });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the cart." });
+  }
+});
 export default router;

@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useRef } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { findUser } from "../middleware/Auth";
@@ -33,13 +33,15 @@ function CheckOut() {
   const formRef = useRef<HTMLFormElement>(null);
   const location = useLocation();
   const user = useUser();
-  console.log(user);
+  const { cartId } = useParams();
+
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const products: Product[] = [];
     location.state.productData.map((product: ProductData) =>
       products.push({ productId: product.id })
     );
+
     const orderDetails = Object.fromEntries(new FormData(e.currentTarget));
     orderDetails["products"] = products;
     orderDetails["amount"] = Number(location.state.price.total);
@@ -61,10 +63,24 @@ function CheckOut() {
         message: data.message,
       };
     }
-    //delete the cart id
+
     if (formRef.current) {
       formRef.current.reset();
     }
+
+    const payRes = await fetch(
+      `http://localhost:3000/api/create-checkout-session`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ price: orderDetails["amount"], cartId: cartId }),
+      }
+    );
+    const payData = await payRes.json();
+    console.log(payData);
+    window.location.href = payData.url;
   };
 
   return (
@@ -74,32 +90,33 @@ function CheckOut() {
         <div className="order-container">
           {location.state.productData &&
             location.state.productData.map((product: ProductData) => {
-              return (
-                <div key={product.id}>
-                  <div className="d-flex flex-row  gap-5">
-                    <img
-                      src={product.imgURL}
-                      alt="product"
-                      className="cart-img img-fluid"
-                    />
-                    <div className="d-flex flex-column align-self-center">
-                      <p>
-                        {" "}
-                        <span className="px-1">{product.count} X </span>
-                        {product.name}
-                      </p>
-
-                      {product.sale ? (
-                        <p className="text-danger">
-                          Sale Price:${product.salePrice.toFixed(2)} ea.
+              if (product.count)
+                return (
+                  <div key={product.id}>
+                    <div className="d-flex flex-row  gap-5">
+                      <img
+                        src={product.imgURL}
+                        alt="product"
+                        className="cart-img img-fluid"
+                      />
+                      <div className="d-flex flex-column align-self-center">
+                        <p>
+                          {" "}
+                          <span className="px-1">{product.count} X </span>
+                          {product.name}
                         </p>
-                      ) : (
-                        <p>${product.price.toFixed(2)} ea.</p>
-                      )}
+
+                        {product.sale ? (
+                          <p className="text-danger">
+                            Sale Price:${product.salePrice.toFixed(2)} ea.
+                          </p>
+                        ) : (
+                          <p>${product.price.toFixed(2)} ea.</p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
+                );
             })}
           {location.state.price && (
             <div className="d-flex flex-column justify-content-end align-items-end px-2">

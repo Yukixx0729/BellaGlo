@@ -16,6 +16,8 @@ import Series from "./components/Series";
 import CartDisplay from "./components/CartDisplay";
 import CheckOut from "./components/Checkout";
 import Payment from "./components/Payment";
+import OrderPending from "./components/OrderPending";
+import EmptyCart from "./components/EmptyCart";
 
 function App() {
   const publishableKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
@@ -42,8 +44,9 @@ function App() {
               <Route path="/type/:type" element={<Products />} />
               <Route path="/series/:series" element={<Series />} />
               <Route path="/cart/:id" element={<CartDisplay />} />
-              <Route path="/checkout/:id" element={<CheckOut />} />
-              <Route path="/payment" element={<Payment />} />
+              <Route path="/cart" element={<EmptyCart />} />
+              <Route path="/checkout/:cartId" element={<CheckOut />} />
+              <Route path="/pending/:id" element={<OrderPending />} />
             </Routes>
           </div>
         </CartProvider>

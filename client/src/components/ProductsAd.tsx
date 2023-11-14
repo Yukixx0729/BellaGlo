@@ -36,7 +36,10 @@ function ProductsAd() {
     <div className="products-container">
       {products.map((product, index) => {
         return (
-          <div className="d-flex flex-row px-5 py-4 justify-content-center products-ad ">
+          <div
+            className="d-flex flex-row px-5 py-4 justify-content-center products-ad "
+            key={index}
+          >
             <img
               src={product.src}
               alt="product ad"
