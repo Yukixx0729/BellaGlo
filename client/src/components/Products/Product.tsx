@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useCart } from "../middleware/CartContext";
+import { useCart } from "../../middleware/CartContext";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 
@@ -57,9 +57,15 @@ function Products() {
                   src={product.imgURL}
                   className="card-img-top img-thumbnail"
                   alt="product img"
+                  onClick={() => navigate(`/product/${product.id}`)}
                 />
                 <div className="card-body d-flex justify-content-between flex-column gap-2">
-                  <h5 className="card-title fs-4">{product.name}</h5>
+                  <h5
+                    className="card-title fs-4"
+                    onClick={() => navigate(`/product/${product.id}`)}
+                  >
+                    {product.name}
+                  </h5>
                   {product.sale ? (
                     <div>
                       <p className="text-end fs-5 card-text">
@@ -79,9 +85,11 @@ function Products() {
                     </div>
                   )}
 
-                  <button className="btn btn-primary">Save the product</button>
+                  <button className="btn btn-secondary">
+                    Save the product
+                  </button>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-secondary"
                     onClick={async () => {
                       user.isSignedIn
                         ? await addToCartWithUser(`${`${product.id}`}`)
@@ -90,43 +98,6 @@ function Products() {
                   >
                     Add to cart
                   </button>
-                </div>
-              </div>
-            );
-          })}
-
-        {products &&
-          products.map((product) => {
-            return (
-              <div className="card product-container my-4 " key={product.id}>
-                <img
-                  src={product.imgURL}
-                  className="card-img-top img-thumbnail"
-                  alt="product img"
-                />
-                <div className="card-body d-flex justify-content-between flex-column gap-2">
-                  <h5 className="card-title fs-4">{product.name}</h5>
-                  {product.sale ? (
-                    <div>
-                      <p className="text-end fs-5 card-text">
-                        <span className="text-danger px-2">
-                          ${product.salePrice}
-                        </span>
-                        <span className="card-text text-decoration-line-through ">
-                          ${product.price}
-                        </span>
-                      </p>
-                    </div>
-                  ) : (
-                    <div>
-                      <p className="card-text text-end fs-5 ">
-                        <span className="px-2">${product.price}</span>
-                      </p>
-                    </div>
-                  )}
-
-                  <button className="btn btn-primary">Save the product</button>
-                  <button className="btn btn-primary">Add to cart</button>
                 </div>
               </div>
             );

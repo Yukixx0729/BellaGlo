@@ -10,11 +10,6 @@ function MyAccount() {
       </button>
       <ul className="dropdown-menu">
         <li>
-          <a className="dropdown-item text-center" href="/profile">
-            My profile
-          </a>
-        </li>
-        <li>
           <a className="dropdown-item text-center" href="/orders">
             My orders
           </a>

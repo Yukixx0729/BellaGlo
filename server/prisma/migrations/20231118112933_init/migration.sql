@@ -20,6 +20,7 @@ CREATE TABLE "Order" (
     "address" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "completed" BOOLEAN NOT NULL,
     "note" TEXT,
     "buyerId" TEXT NOT NULL,
 

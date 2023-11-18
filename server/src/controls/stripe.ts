@@ -6,8 +6,7 @@ const stripe = require("stripe")(process.env.STRIPE_KEY);
 const domain = "http://localhost:5173/pending";
 
 router.post("/", async (req: Request, res: Response) => {
-  const { price, cartId } = req.body;
-  const amountInCents = Math.round(price * 100);
+  const { price, orderId } = req.body;
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -19,14 +18,14 @@ router.post("/", async (req: Request, res: Response) => {
             product_data: {
               name: "Custom Product",
             },
-            unit_amount: amountInCents,
+            unit_amount: price,
           },
           quantity: 1,
         },
       ],
       mode: "payment",
-      success_url: `${domain}/${cartId}?success=true`,
-      cancel_url: `${domain}/${cartId}?canceled=true`,
+      success_url: `${domain}/${orderId}?success=true`,
+      cancel_url: `${domain}/${orderId}?canceled=true`,
     });
 
     // console.log(session.url);

@@ -29,9 +29,11 @@ model Order {
   address String
   phone String
   name String
+  completed Boolean
   note String?
   buyer User  @relation(fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId   String
+
   products ProductOrder[]
 }
 

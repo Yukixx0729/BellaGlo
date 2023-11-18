@@ -31,7 +31,7 @@ router.get("/id/:id", async (req: Request, res: Response) => {
       where: { id: id },
     });
     if (checkProduct) {
-      res.json(checkProduct);
+      res.status(200).json(checkProduct);
     } else {
       res.status(404).json({ message: "not product found" });
     }

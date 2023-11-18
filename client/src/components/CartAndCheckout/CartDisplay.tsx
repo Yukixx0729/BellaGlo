@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCart } from "../middleware/CartContext";
+import { useCart } from "../../middleware/CartContext";
 
 type CartProductType = {
   id: string;
@@ -119,7 +119,7 @@ function CartDisplay() {
   }, [productData]);
 
   return (
-    <div className="d-flex flex-column  my-4 mx-5 ">
+    <div className="d-flex flex-column  my-4 mx-5 shopping-cart">
       <h2 className="cart-header ">My Cart</h2>
       {productData &&
         productData.map((product) => {
@@ -136,7 +136,9 @@ function CartDisplay() {
                     className="cart-img img-fluid"
                   />
                   <div className="d-flex flex-column align-self-center">
-                    <p>{product.name}</p>
+                    <h4 onClick={() => navigate(`/product/${product.id}`)}>
+                      {product.name}
+                    </h4>
 
                     {product.sale ? (
                       <p className="text-danger">
@@ -182,7 +184,7 @@ function CartDisplay() {
               state: { productData: productData, price: price },
             });
           }}
-          className="btn btn-outline-primary btn-lg"
+          className="btn btn-secondary "
         >
           Check out
         </button>

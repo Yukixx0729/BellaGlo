@@ -1,7 +1,7 @@
 import { useLocation, useParams } from "react-router-dom";
 import { useRef } from "react";
 import { useUser } from "@clerk/clerk-react";
-import { findUser } from "../middleware/Auth";
+import { findUser } from "../../middleware/Auth";
 
 type ProductData = {
   id: string;
@@ -33,21 +33,27 @@ function CheckOut() {
   const formRef = useRef<HTMLFormElement>(null);
   const location = useLocation();
   const user = useUser();
-  const { cartId } = useParams();
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const products: Product[] = [];
-    location.state.productData.map((product: ProductData) =>
-      products.push({ productId: product.id })
-    );
+    location.state.productData.map((product: ProductData) => {
+      if (product.count) products.push({ productId: product.id });
+    });
 
     const orderDetails = Object.fromEntries(new FormData(e.currentTarget));
     orderDetails["products"] = products;
-    orderDetails["amount"] = Number(location.state.price.total);
+    if (location.state.price.total >= 99) {
+      orderDetails["amount"] = Math.round(location.state.price.total * 100);
+    } else {
+      orderDetails["amount"] = Math.round(
+        (Number(location.state.price.amount) + 15) * 1.1 * 100
+      );
+    }
+
     const { id } = await findUser(`${user.user.id}`);
     orderDetails["userId"] = id;
-    console.log(orderDetails);
+
     const res = await fetch("http://localhost:3000/api/orders", {
       method: "POST",
       headers: {
@@ -56,7 +62,7 @@ function CheckOut() {
       body: JSON.stringify(orderDetails),
     });
     const data = await res.json();
-
+    console.log(data.id);
     if (res.status !== 201) {
       throw {
         status: res.status,
@@ -75,19 +81,21 @@ function CheckOut() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ price: orderDetails["amount"], cartId: cartId }),
+        body: JSON.stringify({
+          price: orderDetails["amount"],
+          orderId: data.id,
+        }),
       }
     );
     const payData = await payRes.json();
-    console.log(payData);
     window.location.href = payData.url;
   };
 
   return (
     <div className="d-flex flex-column  my-4 mx-5 ">
-      <h2>Order details</h2>
       <div>
         <div className="order-container">
+          <h2>Order details</h2>
           {location.state.productData &&
             location.state.productData.map((product: ProductData) => {
               if (product.count)
@@ -118,44 +126,55 @@ function CheckOut() {
                   </div>
                 );
             })}
-          {location.state.price && (
+          {location.state.price && location.state.price.amount >= 99 ? (
             <div className="d-flex flex-column justify-content-end align-items-end px-2">
               {" "}
+              <p>Amount: ${location.state.price.amount}</p>
+              <p>GST: ${location.state.price.gst}</p>
+              <p>Total: ${location.state.price.total}</p>
+            </div>
+          ) : (
+            <div className="d-flex flex-column justify-content-end align-items-end px-2">
+              {" "}
+              <p>Amount: ${location.state.price.amount}</p>
+              <p>Delivery: $15.00</p>
               <p>
-                Amount: ${location.state.price && location.state.price.amount}
+                GST: $
+                {((Number(location.state.price.amount) + 15) * 0.1).toFixed(2)}
               </p>
-              <p>GST: ${location.state.price && location.state.price.gst}</p>
               <p>
-                Total: ${location.state.price && location.state.price.total}
+                Total: $
+                {((Number(location.state.price.amount) + 15) * 1.1).toFixed(2)}
               </p>
             </div>
           )}
         </div>
-        <div className="form-container my-2">
+        <div className="form-container my-2 ">
           <form
             className="d-flex flex-column justify-content-center align-items-center px-2"
             onSubmit={(e) => handleOnSubmit(e)}
           >
-            <h3 className="py-2">Delivery Details</h3>
             <div>
-              <label>Recevier Name: </label>
-              <input type="text" name="name" />
+              <label className="form-label">Recevier Name: </label>
+              <input type="text" name="name" className="form-control" />
             </div>
             <div>
-              <label>Recevier Address</label>
-              <input type="text" name="address" />
+              <label className="form-label">Recevier Address</label>
+              <input type="text" name="address" className="form-control" />
             </div>
             <div>
-              <label>Recevier Phone</label>
-              <input type="text" name="phone" />
+              <label className="form-label">Recevier Phone</label>
+              <input type="text" name="phone" className="form-control" />
             </div>
             <div>
               {" "}
-              <label>Note:</label>
-              <input type="text" name="note" />
+              <label className="form-label">Note:</label>
+              <input type="text" name="note" className="form-control" />
             </div>
 
-            <button type="submit">Comfirm and Pay </button>
+            <button type="submit" className="btn btn-secondary mb-3">
+              Comfirm and Pay{" "}
+            </button>
           </form>
         </div>
       </div>

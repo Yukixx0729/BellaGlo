@@ -5,6 +5,7 @@ body {
   background-color: #e4e6e6;
   color: #262221;
 }
+
 //header and nav
 .nav-container {
   background-color: #c1b198;
@@ -164,10 +165,17 @@ body {
   width: 18rem;
   font-family: "Imprima", sans-serif;
   background-color: rgba(249, 242, 242, 0.821);
-}
-
-.product-container img {
-  height: 22rem;
+  img {
+    height: 22rem;
+  }
+  img:hover {
+    cursor: pointer;
+  }
+  h5:hover {
+    cursor: pointer;
+    color: #c1b198;
+    text-decoration: underline;
+  }
 }
 
 .series-img {
@@ -199,5 +207,30 @@ body {
   }
   div {
     padding-bottom: 1rem;
+  }
+  label {
+    font-family: "Inconsolata", monospace;
+  }
+}
+
+.order-container {
+  font-family: "Inconsolata", monospace;
+}
+
+.shopping-cart {
+  font-family: "Inconsolata", monospace;
+  h4:hover {
+    cursor: pointer;
+    color: #c1b198;
+    text-decoration: underline;
+  }
+}
+
+//details
+.details-container {
+  font-family: "Inconsolata", monospace;
+  img {
+    max-width: 320px;
+    box-shadow: 2px 2px 3px #c1b198;
   }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useCart } from "../middleware/CartContext";
+import { useCart } from "../../middleware/CartContext";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 
@@ -61,9 +61,15 @@ function Series() {
                   src={product.imgURL}
                   className="card-img-top img-thumbnail"
                   alt="product img"
+                  onClick={() => navigate(`/product/${product.id}`)}
                 />
                 <div className="card-body d-flex justify-content-between flex-column gap-2">
-                  <h5 className="card-title fs-4">{product.name}</h5>
+                  <h5
+                    className="card-title fs-4"
+                    onClick={() => navigate(`/product/${product.id}`)}
+                  >
+                    {product.name}
+                  </h5>
                   {product.sale ? (
                     <div>
                       <p className="text-end fs-5 card-text">

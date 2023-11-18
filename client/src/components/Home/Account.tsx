@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
-import { createNewUser, findUser } from "../middleware/Auth";
-import MyAccount from "./MyAccount";
-import { useCart } from "../middleware/CartContext";
+import { createNewUser, findUser } from "../../middleware/Auth";
+import MyAccount from "../Account/MyAccount";
+import { useCart } from "../../middleware/CartContext";
 
 type userDataType = {
   emailAddress: string;

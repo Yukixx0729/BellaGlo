@@ -1,5 +1,5 @@
-import ProductsAd from "../components/ProductsAd";
-import Slide from "../components/Slide";
+import ProductsAd from "../components/Home/ProductsAd";
+import Slide from "../components/Home/Slide";
 
 function Home() {
   return (

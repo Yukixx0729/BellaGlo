@@ -1,23 +1,25 @@
 import { ClerkProvider } from "@clerk/clerk-react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Nav from "./components/Nav";
-import Footer from "./components/Footer";
-import Signin from "./components/Signin";
-import Signup from "./components/Signup";
-import Aboutus from "./components/Aboutus";
-import Contactus from "./components/Contactus";
-import Team from "./components/Team";
-import Career from "./components/Career";
-import Signout from "./components/SignOut";
+import Nav from "./components/Home/Nav";
+import Footer from "./components/Footer/Footer";
+import Signin from "./components/Auth/Signin";
+import Signup from "./components/Auth/Signup";
+import Aboutus from "./components/Footer/Aboutus";
+import Contactus from "./components/Footer/Contactus";
+import Team from "./components/Footer/Team";
+import Career from "./components/Footer/Career";
+import Signout from "./components/Auth/SignOut";
 import { CartProvider } from "./middleware/CartContext";
-import Products from "./components/Product";
-import Series from "./components/Series";
-import CartDisplay from "./components/CartDisplay";
-import CheckOut from "./components/Checkout";
-import Payment from "./components/Payment";
-import OrderPending from "./components/OrderPending";
-import EmptyCart from "./components/EmptyCart";
+import Products from "./components/Products/Product";
+import Series from "./components/Products/Series";
+import CartDisplay from "./components/CartAndCheckout/CartDisplay";
+import CheckOut from "./components/CartAndCheckout/Checkout";
+
+import OrderPending from "./components/CartAndCheckout/OrderPending";
+import EmptyCart from "./components/CartAndCheckout/EmptyCart";
+import MyOrders from "./components/Account/MyOrders";
+import ProductDetail from "./components/Products/ProductDetails";
 
 function App() {
   const publishableKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
@@ -46,7 +48,9 @@ function App() {
               <Route path="/cart/:id" element={<CartDisplay />} />
               <Route path="/cart" element={<EmptyCart />} />
               <Route path="/checkout/:cartId" element={<CheckOut />} />
-              <Route path="/pending/:id" element={<OrderPending />} />
+              <Route path="/pending/:orderId" element={<OrderPending />} />
+              <Route path="/orders" element={<MyOrders />} />
+              <Route path="/product/:productId" element={<ProductDetail />} />
             </Routes>
           </div>
         </CartProvider>

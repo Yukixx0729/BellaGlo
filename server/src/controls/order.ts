@@ -15,6 +15,8 @@ router.post("/", async (req: Request, res: Response) => {
         phone: phone,
         name: name,
         note: note,
+
+        completed: false,
         buyer: {
           connect: { id: userId },
         },
@@ -37,13 +39,13 @@ router.get("/user/:id", async (req: Request, res: Response) => {
       where: {
         buyerId: id,
       },
-      //   include: {
-      //     products: {
-      //       include: {
-      //         product: true,
-      //       },
-      //     },
-      //   },
+      include: {
+        products: {
+          include: {
+            product: true,
+          },
+        },
+      },
     });
     res.status(200).json(orders);
   } catch (error) {
@@ -73,6 +75,22 @@ router.get("/order/:id", async (req: Request, res: Response) => {
   }
 });
 
-//cancel an order
+//update the order status
+router.put("/order/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const updatedOrder = await prisma.order.update({
+      where: {
+        id: id,
+      },
+      data: {
+        completed: true,
+      },
+    });
+    res.status(200).json(updatedOrder);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 export default router;
