@@ -149,7 +149,7 @@ function CartDisplay() {
                     )}
                   </div>
                 </div>
-                <div className=" d-flex flex-row align-self-center ">
+                <div className=" d-flex flex-row align-self-center amount-container">
                   {" "}
                   <button
                     onClick={() => {

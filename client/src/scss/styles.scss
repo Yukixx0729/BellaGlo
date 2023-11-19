@@ -109,6 +109,13 @@ body {
     flex-direction: column;
     flex-wrap: wrap;
   }
+  .nav-container {
+    flex-direction: column;
+    flex-wrap: wrap;
+    ul {
+      margin: auto;
+    }
+  }
   .order-1 {
     order: 0 !important;
   }
@@ -139,12 +146,16 @@ body {
   .cart-container {
     flex-direction: row;
     flex-wrap: wrap;
+    .amount-container {
+      margin: auto;
+    }
     img {
       margin: auto;
     }
     .cart-sub-container {
       flex-direction: row;
       flex-wrap: wrap;
+      margin: auto;
       h4 {
         font-size: 20px;
       }
@@ -152,6 +163,9 @@ body {
         margin: auto;
       }
     }
+  }
+  .product-container {
+    margin: auto;
   }
 }
 

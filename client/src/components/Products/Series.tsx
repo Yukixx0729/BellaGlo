@@ -89,7 +89,7 @@ function Series() {
                     </div>
                   )}
 
-                  <a href="#" className="btn btn-primary">
+                  <a href="#" className="btn custom-button">
                     Save the product
                   </a>
                   <button
@@ -98,7 +98,7 @@ function Series() {
                         ? await addToCartWithUser(`${`${product.id}`}`)
                         : navigate("/sign-in");
                     }}
-                    className="btn btn-primary"
+                    className="btn custom-button"
                   >
                     Add to cart
                   </button>

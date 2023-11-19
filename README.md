@@ -4,6 +4,7 @@
 
 ---
 
+- Responsive Web Design
 - Node Express framework
 - React vite framework
 - Back End: Typescript , PostgreSQL , Prisma(ORM)
@@ -15,4 +16,5 @@
 
 <img src="./images/Home.png" width="1000" />
 <img src="./images/Product.png" width="1000" />
+<img src="./images/Details.png" width="1000" />
 <img src="./images/Cart.png" width="1000" />
