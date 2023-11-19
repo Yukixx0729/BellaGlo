@@ -127,9 +127,9 @@ function CartDisplay() {
             return (
               <div
                 key={product.id}
-                className="d-flex flex-row  justify-content-between py-2 px-3 "
+                className="d-flex flex-row  justify-content-between py-2 px-3 cart-container"
               >
-                <div className="d-flex flex-row  gap-5">
+                <div className="d-flex flex-row  gap-5 cart-sub-container">
                   <img
                     src={product.imgURL}
                     alt="product"
@@ -148,8 +148,6 @@ function CartDisplay() {
                       <p>${product.price.toFixed(2)}</p>
                     )}
                   </div>
-
-                  {/* <p>{product.description}</p> */}
                 </div>
                 <div className=" d-flex flex-row align-self-center ">
                   {" "}
@@ -184,7 +182,7 @@ function CartDisplay() {
               state: { productData: productData, price: price },
             });
           }}
-          className="btn btn-secondary "
+          className="btn custom-button "
         >
           Check out
         </button>

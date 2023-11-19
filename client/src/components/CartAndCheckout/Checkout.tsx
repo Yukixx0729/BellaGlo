@@ -94,20 +94,20 @@ function CheckOut() {
   return (
     <div className="d-flex flex-column  my-4 mx-5 ">
       <div>
-        <div className="order-container">
+        <div className="order-container ">
           <h2>Order details</h2>
           {location.state.productData &&
             location.state.productData.map((product: ProductData) => {
               if (product.count)
                 return (
                   <div key={product.id}>
-                    <div className="d-flex flex-row  gap-5">
+                    <div className="d-flex flex-row  gap-5 cart-container">
                       <img
                         src={product.imgURL}
                         alt="product"
                         className="cart-img img-fluid"
                       />
-                      <div className="d-flex flex-column align-self-center">
+                      <div className="d-flex flex-column align-self-center cart-sub-container">
                         <p>
                           {" "}
                           <span className="px-1">{product.count} X </span>
@@ -172,7 +172,7 @@ function CheckOut() {
               <input type="text" name="note" className="form-control" />
             </div>
 
-            <button type="submit" className="btn btn-secondary mb-3">
+            <button type="submit" className="btn custom-button mb-3">
               Comfirm and Pay{" "}
             </button>
           </form>

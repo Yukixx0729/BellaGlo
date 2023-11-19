@@ -34,45 +34,51 @@ function ProductDetail() {
     handleProductClick(`${productId}`);
   }, []);
   return (
-    <div className="my-5 container ">
-      {productDetails && (
-        <div className="d-flex flex-row justify-content-between gap-5 details-container">
-          <img
-            src={productDetails.imgURL}
-            alt="product img "
-            className="w-50 h-50 img-fluid"
-          />
-          <div className="d-flex flex-column  align-item-center gap-4">
-            <h5>BellaGlo • {productDetails.type}</h5>
-            <h3>{productDetails.name}</h3>
-            <p className=" fs-3 ">
-              {productDetails.sale ? (
-                <span className="text-danger">${productDetails.salePrice}</span>
-              ) : (
-                <span>${productDetails.price}</span>
-              )}
-            </p>
+    <div>
+      <h2 className="py-3 px-5 brand-type mt-3">BellaGlo.</h2>
+      <div className="my-3 container ">
+        {productDetails && (
+          <div className="d-flex flex-row justify-content-between gap-5 details-container">
+            {" "}
+            <img
+              src={productDetails.imgURL}
+              alt="product img "
+              className="w-50 h-50 img-fluid"
+            />
+            <div className="d-flex flex-column  align-item-center gap-4">
+              <h5>BellaGlo • {productDetails.type}</h5>
+              <h3>{productDetails.name}</h3>
+              <p className=" fs-3 ">
+                {productDetails.sale ? (
+                  <span className="text-danger">
+                    ${productDetails.salePrice}
+                  </span>
+                ) : (
+                  <span>${productDetails.price}</span>
+                )}
+              </p>
 
-            <div>
-              Description: <p>{productDetails.description}</p>
-            </div>
+              <div>
+                Description: <p>{productDetails.description}</p>
+              </div>
 
-            <div>
-              <button
-                className="btn btn-dark"
-                onClick={async () => {
-                  user.isSignedIn
-                    ? await addToCartWithUser(`${`${productDetails.id}`}`)
-                    : navigate("/sign-in");
-                }}
-              >
-                Add to cart
-              </button>
-              <p className="text-secondary mt-4">⭐️ Save the product</p>
+              <div>
+                <button
+                  className="btn btn-dark"
+                  onClick={async () => {
+                    user.isSignedIn
+                      ? await addToCartWithUser(`${`${productDetails.id}`}`)
+                      : navigate("/sign-in");
+                  }}
+                >
+                  Add to cart
+                </button>
+                <p className="text-secondary mt-4">⭐️ Save the product</p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

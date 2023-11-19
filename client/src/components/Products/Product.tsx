@@ -85,11 +85,11 @@ function Products() {
                     </div>
                   )}
 
-                  <button className="btn btn-secondary">
+                  <button className="btn custom-button">
                     Save the product
                   </button>
                   <button
-                    className="btn btn-secondary"
+                    className="btn custom-button"
                     onClick={async () => {
                       user.isSignedIn
                         ? await addToCartWithUser(`${`${product.id}`}`)

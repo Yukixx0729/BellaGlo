@@ -5,6 +5,13 @@ body {
   background-color: #e4e6e6;
   color: #262221;
 }
+.custom-button {
+  background-color: #484441;
+  color: #e4e6e6;
+}
+.custom-button:hover {
+  background-color: #c1b198;
+}
 
 //header and nav
 .nav-container {
@@ -117,6 +124,34 @@ body {
   }
   .nav-link {
     font-size: 15px;
+  }
+
+  .details-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    img {
+      margin: auto;
+      border-radius: 2%;
+    }
+  }
+  .cart-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    img {
+      margin: auto;
+    }
+    .cart-sub-container {
+      flex-direction: row;
+      flex-wrap: wrap;
+      h4 {
+        font-size: 20px;
+      }
+      img {
+        margin: auto;
+      }
+    }
   }
 }
 
@@ -232,5 +267,15 @@ body {
   img {
     max-width: 320px;
     box-shadow: 2px 2px 3px #c1b198;
+  }
+}
+
+//orders display
+.orders-display {
+  font-family: "Inconsolata", monospace;
+  div {
+    border-radius: 5%;
+    border: 1px solid black;
+    box-shadow: 1px 2px 1px #bed9e0;
   }
 }
