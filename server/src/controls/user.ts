@@ -26,6 +26,15 @@ router.get("/:id", async (req: Request, res: Response) => {
       include: {
         order: true,
         cart: true,
+        fav: {
+          include: {
+            list: {
+              include: {
+                product: true,
+              },
+            },
+          },
+        },
       },
     });
     if (checkUser) {

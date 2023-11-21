@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 import { useCart } from "../../middleware/CartContext";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
+import { findUser } from "../../middleware/Auth";
+import { List } from "../Account/MySaved";
 
 type ProductType = {
-  id: number;
+  id: string;
   name: string;
   sale: boolean;
   price: number;
@@ -19,7 +21,7 @@ function Products() {
   const { addToCartWithUser } = useCart();
   const { type } = useParams();
   const [products, setProducts] = useState<ProductType[] | null>(null);
-
+  const [favList, setFavList] = useState<List[] | null>(null);
   useEffect(() => {
     const getAllProducts = async (type: string) => {
       try {
@@ -39,9 +41,44 @@ function Products() {
         console.error("Error in fetch:", error);
       }
     };
+
     getAllProducts(`${type}`);
   }, []);
+  const checkFavItems = async () => {
+    if (user.user && user.user.id) {
+      const userInfo = await findUser(`${user.user.id}`);
+      if (userInfo.fav.length) {
+        console.log(userInfo.fav[0].list);
+        setFavList(userInfo.fav[0].list);
+      }
+    }
+  };
+  useEffect(() => {
+    checkFavItems();
+  }, [user.user]);
 
+  const handleSavedItem = async (id: string) => {
+    if (user.user && user.user.id) {
+      const userInfo = await findUser(`${user.user.id}`);
+      const data = { userId: userInfo.id, productId: id };
+      if (userInfo.fav.length) {
+        await fetch(`http://localhost:3000/api/fav`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      } else {
+        await fetch(`http://localhost:3000/api/fav`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      }
+      checkFavItems();
+    } else {
+      navigate("/sign-in");
+    }
+  };
   return (
     <div>
       <div className="brand-type px-3 py-2 mt-3">
@@ -84,10 +121,22 @@ function Products() {
                       </p>
                     </div>
                   )}
+                  {favList &&
+                  favList.filter((item) => {
+                    return item.productId === product.id;
+                  }).length ? (
+                    <button className="btn custom-button" disabled>
+                      Saved
+                    </button>
+                  ) : (
+                    <button
+                      className="btn custom-button"
+                      onClick={() => handleSavedItem(`${product.id}`)}
+                    >
+                      Save the product
+                    </button>
+                  )}
 
-                  <button className="btn custom-button">
-                    Save the product
-                  </button>
                   <button
                     className="btn custom-button"
                     onClick={async () => {

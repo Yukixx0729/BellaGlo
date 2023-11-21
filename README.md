@@ -1,4 +1,4 @@
-# BellaGlo (skincare e-commerce -- ongoing)
+# BellaGlo (skincare e-commerce)
 
 ### **Technologies used**
 
@@ -18,3 +18,5 @@
 <img src="./images/Product.png" width="1000" />
 <img src="./images/Details.png" width="1000" />
 <img src="./images/Cart.png" width="1000" />
+<img src="./images/CheckOut.png" width="1000" />
+<img src="./images/SavedItem.png" width="1000" />

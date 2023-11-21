@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useCart } from "../../middleware/CartContext";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
+import { findUser } from "../../middleware/Auth";
+import { List } from "../Account/MySaved";
 
 type ProductType = {
   id: number;
@@ -18,6 +20,7 @@ type ProductType = {
 function ProductDetail() {
   const navigate = useNavigate();
   const user = useUser();
+  const [isFav, setIsFav] = useState(false);
   const { addToCartWithUser } = useCart();
   const { productId } = useParams();
   const [productDetails, setProductDetails] = useState<ProductType | null>(
@@ -29,10 +32,48 @@ function ProductDetail() {
       const res = await fetch(`http://localhost:3000/api/products/id/${id}`);
       const data = await res.json();
       setProductDetails(data);
-      console.log(productDetails);
     };
     handleProductClick(`${productId}`);
   }, []);
+  const checkFavItems = async (productId: string) => {
+    if (user.user && user.user.id) {
+      const userInfo = await findUser(`${user.user.id}`);
+      if (userInfo.fav.length) {
+        const fav = userInfo.fav[0].list.filter(
+          (item: List) => item.product.id === productId
+        );
+
+        if (fav.length) {
+          setIsFav(true);
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    checkFavItems(`${productId}`);
+  }, [user.user]);
+
+  const hanldeOnClickSaved = async (id: string) => {
+    if (user.user && user.user.id) {
+      const userInfo = await findUser(`${user.user.id}`);
+      const data = { userId: userInfo.id, productId: id };
+      if (userInfo.fav.length) {
+        await fetch(`http://localhost:3000/api/fav`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      } else {
+        await fetch(`http://localhost:3000/api/fav`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      }
+    }
+    setIsFav(true);
+  };
+
   return (
     <div>
       <h2 className="py-3 px-5 brand-type mt-3">BellaGlo.</h2>
@@ -73,7 +114,20 @@ function ProductDetail() {
                 >
                   Add to cart
                 </button>
-                <p className="text-secondary mt-4">⭐️ Save the product</p>
+                {isFav ? (
+                  <p className="text-secondary mt-4 ">⭐️ Saved product</p>
+                ) : (
+                  <p className="text-secondary mt-4 ">
+                    <button
+                      className="btn custom-btn"
+                      onClick={() => {
+                        hanldeOnClickSaved(`${productDetails.id}`);
+                      }}
+                    >
+                      ⭐️ Save the product
+                    </button>
+                  </p>
+                )}
               </div>
             </div>
           </div>

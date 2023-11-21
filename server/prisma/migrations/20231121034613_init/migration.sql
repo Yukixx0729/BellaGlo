@@ -28,6 +28,23 @@ CREATE TABLE "Order" (
 );
 
 -- CreateTable
+CREATE TABLE "Favourite" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+
+    CONSTRAINT "Favourite_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "FavProduct" (
+    "id" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "favouriteId" TEXT NOT NULL,
+
+    CONSTRAINT "FavProduct_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Product" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -66,8 +83,20 @@ CREATE UNIQUE INDEX "User_authId_key" ON "User"("authId");
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Favourite_userId_key" ON "Favourite"("userId");
+
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_buyerId_fkey" FOREIGN KEY ("buyerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Favourite" ADD CONSTRAINT "Favourite_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FavProduct" ADD CONSTRAINT "FavProduct_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FavProduct" ADD CONSTRAINT "FavProduct_favouriteId_fkey" FOREIGN KEY ("favouriteId") REFERENCES "Favourite"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ProductOrder" ADD CONSTRAINT "ProductOrder_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

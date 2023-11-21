@@ -53,8 +53,6 @@ function CartDisplay() {
     }
   };
 
-  // const handleCheckout = async (id: string) => {};
-
   useEffect(() => {
     const fetchCartData = async (id: string) => {
       const res = await fetch(`http://localhost:3000/api/cart/${id}`);
@@ -87,7 +85,6 @@ function CartDisplay() {
         }
       });
       setProductData(sortedProduct);
-      console.log(sortedProduct);
     };
     fetchCartData(`${id}`);
   }, []);
@@ -121,7 +118,7 @@ function CartDisplay() {
   return (
     <div className="d-flex flex-column  my-4 mx-5 shopping-cart">
       <h2 className="cart-header ">My Cart</h2>
-      {productData &&
+      {productData && productData.length ? (
         productData.map((product) => {
           if (product.count > 0) {
             return (
@@ -170,23 +167,28 @@ function CartDisplay() {
               </div>
             );
           }
-        })}
-      <div className="d-flex flex-column justify-content-end align-items-end px-2">
-        <p>Amount: ${price && price.amount}</p>
-        <p>GST: ${price && price.gst}</p>
-        <p>Total: ${price && price.total}</p>
+        })
+      ) : (
+        <div className="tips">Nothing in your cart yet.</div>
+      )}
+      {productData && productData.length ? (
+        <div className="d-flex flex-column justify-content-end align-items-end px-2">
+          <p>Amount: ${price && price.amount}</p>
+          <p>GST: ${price && price.gst}</p>
+          <p>Total: ${price && price.total}</p>
 
-        <button
-          onClick={() => {
-            navigate(`/checkout/${id}`, {
-              state: { productData: productData, price: price },
-            });
-          }}
-          className="btn custom-button "
-        >
-          Check out
-        </button>
-      </div>
+          <button
+            onClick={() => {
+              navigate(`/checkout/${id}`, {
+                state: { productData: productData, price: price },
+              });
+            }}
+            className="btn custom-button "
+          >
+            Check out
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

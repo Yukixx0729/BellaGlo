@@ -8,7 +8,6 @@ const router = express.Router();
 router.post("/", async (req: Request, res: Response) => {
   try {
     const { userId, productId } = req.body;
-    console.log(userId, productId);
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });

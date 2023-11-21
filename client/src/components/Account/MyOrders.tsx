@@ -28,7 +28,6 @@ function MyOrders() {
   const [orders, setOrders] = useState<OrderType[] | null>(null);
   const user = useUser();
 
-  const handleOnClick = () => {};
   useEffect(() => {
     const fetchOrders = async () => {
       if (user.user && user.user.id) {
@@ -49,7 +48,7 @@ function MyOrders() {
     <div className="orders-display mx-3 my-3">
       <h2 className="text-center">My orders</h2>
 
-      {orders &&
+      {orders && orders.length ? (
         orders.map((order: OrderType) => {
           return (
             <div key={order.id} className="my-4 mx-2">
@@ -92,7 +91,10 @@ function MyOrders() {
               </ul>
             </div>
           );
-        })}
+        })
+      ) : (
+        <p className="tips">You haven't orderd anything yet.</p>
+      )}
     </div>
   );
 }

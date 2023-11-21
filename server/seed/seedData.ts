@@ -80,7 +80,7 @@ const products = [
     imgURL: "/12.avif",
   },
   {
-    name: "BellaGlo Jojoba Oil Free Washing Conditioner - 100ml",
+    name: "BellaGlo Jojoba Oil FW Conditioner - 100ml",
     type: "hair",
     price: 39.0,
     sale: false,

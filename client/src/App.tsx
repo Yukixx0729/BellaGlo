@@ -15,7 +15,7 @@ import Products from "./components/Products/Product";
 import Series from "./components/Products/Series";
 import CartDisplay from "./components/CartAndCheckout/CartDisplay";
 import CheckOut from "./components/CartAndCheckout/Checkout";
-
+import MySaved from "./components/Account/MySaved";
 import OrderPending from "./components/CartAndCheckout/OrderPending";
 import EmptyCart from "./components/CartAndCheckout/EmptyCart";
 import MyOrders from "./components/Account/MyOrders";
@@ -50,6 +50,7 @@ function App() {
               <Route path="/checkout/:cartId" element={<CheckOut />} />
               <Route path="/pending/:orderId" element={<OrderPending />} />
               <Route path="/orders" element={<MyOrders />} />
+              <Route path="/saved" element={<MySaved />} />
               <Route path="/product/:productId" element={<ProductDetail />} />
             </Routes>
           </div>

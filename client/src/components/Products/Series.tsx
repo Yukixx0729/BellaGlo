@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 import { useCart } from "../../middleware/CartContext";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
+import { List } from "../Account/MySaved";
+import { findUser } from "../../middleware/Auth";
 
 type ProductType = {
-  id: number;
+  id: string;
   name: string;
   sale: boolean;
   price: number;
@@ -24,6 +26,7 @@ function Series() {
   const { series } = useParams();
   const user = useUser();
   const { addToCartWithUser } = useCart();
+  const [favList, setFavList] = useState<List[] | null>(null);
   const img = seriesPic.filter((item) => item.name === series);
   const [seriesData, setSeriesData] = useState<ProductType[] | null>(null);
 
@@ -42,6 +45,40 @@ function Series() {
     };
     getAllData(`${series}`);
   }, []);
+  const checkFavItems = async () => {
+    if (user.user && user.user.id) {
+      const userInfo = await findUser(`${user.user.id}`);
+      if (userInfo.fav.length) {
+        console.log(userInfo.fav[0].list);
+        setFavList(userInfo.fav[0].list);
+      }
+    }
+  };
+  const handleSavedItem = async (id: string) => {
+    if (user.user && user.user.id) {
+      const userInfo = await findUser(`${user.user.id}`);
+      const data = { userId: userInfo.id, productId: id };
+      if (userInfo.fav.length) {
+        await fetch(`http://localhost:3000/api/fav`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      } else {
+        await fetch(`http://localhost:3000/api/fav`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      }
+      checkFavItems();
+    } else {
+      navigate("/sign-in");
+    }
+  };
+  useEffect(() => {
+    checkFavItems();
+  }, [user.user]);
 
   return (
     <div>
@@ -89,9 +126,21 @@ function Series() {
                     </div>
                   )}
 
-                  <a href="#" className="btn custom-button">
-                    Save the product
-                  </a>
+                  {favList &&
+                  favList.filter((item) => {
+                    return item.productId === product.id;
+                  }).length ? (
+                    <button className="btn custom-button" disabled>
+                      Saved
+                    </button>
+                  ) : (
+                    <button
+                      className="btn custom-button"
+                      onClick={() => handleSavedItem(`${product.id}`)}
+                    >
+                      Save the product
+                    </button>
+                  )}
                   <button
                     onClick={async () => {
                       user.isSignedIn
