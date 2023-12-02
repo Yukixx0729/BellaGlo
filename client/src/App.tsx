@@ -1,5 +1,5 @@
 import { ClerkProvider } from "@clerk/clerk-react";
-import { BrowserRouter as Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Nav from "./components/Home/Nav";
 import Footer from "./components/Footer/Footer";
@@ -34,6 +34,7 @@ function App() {
 
           <Nav />
           <div className="flex-grow-1">
+            {" "}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/sign-in" element={<Signin />} />
