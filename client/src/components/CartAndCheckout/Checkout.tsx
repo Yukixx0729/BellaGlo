@@ -28,7 +28,7 @@ type OrderDetails = {
 type Product = {
   productId: string;
 };
-
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 function CheckOut() {
   const formRef = useRef<HTMLFormElement>(null);
   const location = useLocation();
@@ -54,7 +54,7 @@ function CheckOut() {
     const { id } = await findUser(`${user.user.id}`);
     orderDetails["userId"] = id;
 
-    const res = await fetch("http://localhost:3000/api/orders", {
+    const res = await fetch(`${API_URL}/api/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,19 +74,16 @@ function CheckOut() {
       formRef.current.reset();
     }
 
-    const payRes = await fetch(
-      `http://localhost:3000/api/create-checkout-session`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          price: orderDetails["amount"],
-          orderId: data.id,
-        }),
-      }
-    );
+    const payRes = await fetch(`${API_URL}/api/create-checkout-session`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        price: orderDetails["amount"],
+        orderId: data.id,
+      }),
+    });
     const payData = await payRes.json();
     window.location.href = payData.url;
   };

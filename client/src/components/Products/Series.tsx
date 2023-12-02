@@ -20,7 +20,7 @@ const seriesPic = [
   { name: "jojoba", src: "/5.avif" },
   { name: "greentea", src: "/6.avif" },
 ];
-
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 function Series() {
   const navigate = useNavigate();
   const { series } = useParams();
@@ -33,9 +33,7 @@ function Series() {
   useEffect(() => {
     const getAllData = async (series: string) => {
       try {
-        const res = await fetch(
-          `http://localhost:3000/api/products/series/${series}`
-        );
+        const res = await fetch(`${API_URL}/api/products/series/${series}`);
         const data = await res.json();
         console.log(data);
         setSeriesData(data);
@@ -59,13 +57,13 @@ function Series() {
       const userInfo = await findUser(`${user.user.id}`);
       const data = { userId: userInfo.id, productId: id };
       if (userInfo.fav.length) {
-        await fetch(`http://localhost:3000/api/fav`, {
+        await fetch(`${API_URL}/api/fav`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         });
       } else {
-        await fetch(`http://localhost:3000/api/fav`, {
+        await fetch(`${API_URL}/api/fav`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),

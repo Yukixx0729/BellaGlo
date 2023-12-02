@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../../middleware/CartContext";
-
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 type CartProductType = {
   id: string;
   name: string;
@@ -55,11 +55,11 @@ function CartDisplay() {
 
   useEffect(() => {
     const fetchCartData = async (id: string) => {
-      const res = await fetch(`http://localhost:3000/api/cart/${id}`);
+      const res = await fetch(`${API_URL}/api/cart/${id}`);
       const data = await res.json();
 
       const productPromises = await data.product.map(async (id: string) => {
-        const res = await fetch(`http://localhost:3000/api/products/id/${id}`);
+        const res = await fetch(`${API_URL}/api/products/id/${id}`);
         const data = await res.json();
         return data;
       });

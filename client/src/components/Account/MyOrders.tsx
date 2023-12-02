@@ -23,7 +23,7 @@ type Products = {
     imgURL: string;
   };
 };
-
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 function MyOrders() {
   const [orders, setOrders] = useState<OrderType[] | null>(null);
   const user = useUser();
@@ -33,9 +33,7 @@ function MyOrders() {
       if (user.user && user.user.id) {
         const userInfo = await findUser(`${user.user.id}`);
 
-        const res = await fetch(
-          `http://localhost:3000/api/orders/user/${userInfo.id}`
-        );
+        const res = await fetch(`${API_URL}/api/orders/user/${userInfo.id}`);
         const data = await res.json();
         setOrders(data);
         console.log(data);

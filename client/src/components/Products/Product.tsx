@@ -14,7 +14,7 @@ type ProductType = {
   salePrice: number;
   imgURL: string;
 };
-
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 function Products() {
   const navigate = useNavigate();
   const user = useUser();
@@ -26,14 +26,12 @@ function Products() {
     const getAllProducts = async (type: string) => {
       try {
         if (type === "sale") {
-          const res = await fetch(`http://localhost:3000/api/products/sale`);
+          const res = await fetch(`${API_URL}/api/products/sale`);
           const data = await res.json();
 
           setProducts(data);
         } else {
-          const res = await fetch(
-            `http://localhost:3000/api/products/type/${type}`
-          );
+          const res = await fetch(`${API_URL}/api/products/type/${type}`);
           const data = await res.json();
           setProducts(data);
         }
@@ -62,13 +60,13 @@ function Products() {
       const userInfo = await findUser(`${user.user.id}`);
       const data = { userId: userInfo.id, productId: id };
       if (userInfo.fav.length) {
-        await fetch(`http://localhost:3000/api/fav`, {
+        await fetch(`${API_URL}/api/fav`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         });
       } else {
-        await fetch(`http://localhost:3000/api/fav`, {
+        await fetch(`${API_URL}/api/fav`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),

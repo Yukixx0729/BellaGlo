@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/clerk-react";
 import { createContext, useContext, useEffect, useState } from "react";
 import { findUser } from "./Auth";
-
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 type CartContextType = {
   cartCount: number;
   cartId: string;
@@ -34,18 +34,15 @@ export const CartProvider: React.FC = ({ children }: any) => {
     if (user.isSignedIn) {
       const userData = await findUser(`${user.user.id}`);
       if (userData.cart[0]) {
-        const res = await fetch(
-          `http://localhost:3000/api/cart/${userData.cart[0].id}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ productId: productId }),
-          }
-        );
+        const res = await fetch(`${API_URL}/api/cart/${userData.cart[0].id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId: productId }),
+        });
         const data = await res.json();
         setCartCount(data.product.length);
       } else {
-        const res = await fetch(`http://localhost:3000/api/cart`, {
+        const res = await fetch(`${API_URL}/api/cart`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: userData.id, productId: [productId] }),
@@ -60,7 +57,7 @@ export const CartProvider: React.FC = ({ children }: any) => {
       const userData = await findUser(`${user.user.id}`);
       if (userData.cart[0]) {
         const res = await fetch(
-          `http://localhost:3000/api/cart/update/${userData.cart[0].id}`,
+          `${API_URL}/api/cart/update/${userData.cart[0].id}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },

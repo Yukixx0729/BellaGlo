@@ -5,7 +5,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { findUser } from "../../middleware/Auth";
 import { List } from "../Account/MySaved";
-
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 type ProductType = {
   id: number;
   name: string;
@@ -29,7 +29,7 @@ function ProductDetail() {
 
   useEffect(() => {
     const handleProductClick = async (id: string) => {
-      const res = await fetch(`http://localhost:3000/api/products/id/${id}`);
+      const res = await fetch(`${API_URL}/api/products/id/${id}`);
       const data = await res.json();
       setProductDetails(data);
     };
@@ -58,13 +58,13 @@ function ProductDetail() {
       const userInfo = await findUser(`${user.user.id}`);
       const data = { userId: userInfo.id, productId: id };
       if (userInfo.fav.length) {
-        await fetch(`http://localhost:3000/api/fav`, {
+        await fetch(`${API_URL}/api/fav`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         });
       } else {
-        await fetch(`http://localhost:3000/api/fav`, {
+        await fetch(`${API_URL}/api/fav`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),

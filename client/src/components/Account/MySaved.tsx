@@ -17,7 +17,7 @@ export type List = {
   };
   productId: string;
 };
-
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 function MySaved() {
   const navigate = useNavigate();
   const [list, setList] = useState<List[] | null>(null);
@@ -36,7 +36,7 @@ function MySaved() {
 
   const handleDelete = async (favId: string, productId: string) => {
     const data = { favouriteId: favId, productId: productId };
-    await fetch("http://localhost:3000/api/fav", {
+    await fetch(`${API_URL}/api/fav`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

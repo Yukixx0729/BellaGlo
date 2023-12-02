@@ -1,6 +1,8 @@
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
+
 export const findUser = async (id: string) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/users/${id}`);
+    const res = await fetch(`${API_URL}/api/users/${id}`);
     if (res.status === 200) {
       const data = await res.json();
       return data;
@@ -11,7 +13,7 @@ export const findUser = async (id: string) => {
 };
 
 export const createNewUser = async (authId: string, email: string) => {
-  const res = await fetch("http://localhost:3000/api/users", {
+  const res = await fetch(`${API_URL}/api/users`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

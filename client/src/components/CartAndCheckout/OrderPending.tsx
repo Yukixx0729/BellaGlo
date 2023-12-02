@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { findUser } from "../../middleware/Auth";
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 function OrderPending() {
   const user = useUser();
 
@@ -12,17 +13,14 @@ function OrderPending() {
       if (user && user.user) {
         const userData = await findUser(`${user.user.id}`);
         if (window.location.href.includes("success")) {
-          await fetch(`http://localhost:3000/api/orders/order/${orderId}`, {
+          await fetch(`${API_URL}/api/orders/order/${orderId}`, {
             method: "PUT",
           });
 
           if (userData && userData.cart && userData.cart[0]) {
-            await fetch(
-              `http://localhost:3000/api/cart/${userData.cart[0].id}`,
-              {
-                method: "DELETE",
-              }
-            );
+            await fetch(`${API_URL}/api/cart/${userData.cart[0].id}`, {
+              method: "DELETE",
+            });
             window.location.reload();
           }
 
