@@ -9,9 +9,14 @@ type CartContextType = {
   removeProduct: (productId: string) => Promise<void>;
 };
 
+interface CartProviderProps {
+  children: React.ReactNode;
+}
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export const CartProvider: React.FC = ({ children }: any) => {
+export const CartProvider: React.FC<CartProviderProps> = ({
+  children,
+}: CartProviderProps) => {
   const user = useUser();
   const [cartCount, setCartCount] = useState(0);
   const [cartId, setCartId] = useState("");

@@ -1,5 +1,5 @@
 import { ClerkProvider } from "@clerk/clerk-react";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Nav from "./components/Home/Nav";
 import Footer from "./components/Footer/Footer";

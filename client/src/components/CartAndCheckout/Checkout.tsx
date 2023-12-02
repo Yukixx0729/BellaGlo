@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useRef } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { findUser } from "../../middleware/Auth";
@@ -12,17 +12,6 @@ type ProductData = {
   imgURL: string;
   description: string;
   count: number;
-};
-
-type OrderDetails = {
-  userId: string;
-  amount: string;
-  address: string;
-  number: string;
-  name: string;
-  phone: string;
-  note: string;
-  products: Product[];
 };
 
 type Product = {
@@ -42,16 +31,18 @@ function CheckOut() {
     });
 
     const orderDetails = Object.fromEntries(new FormData(e.currentTarget));
-    orderDetails["products"] = products;
+    orderDetails["products"] = JSON.stringify(products);
     if (location.state.price.total >= 99) {
-      orderDetails["amount"] = Math.round(location.state.price.total * 100);
+      orderDetails["amount"] = Math.round(
+        location.state.price.total * 100
+      ).toString();
     } else {
       orderDetails["amount"] = Math.round(
         (Number(location.state.price.amount) + 15) * 1.1 * 100
-      );
+      ).toString();
     }
 
-    const { id } = await findUser(`${user.user.id}`);
+    const { id } = user && user.user ? await findUser(`${user.user.id}`) : null;
     orderDetails["userId"] = id;
 
     const res = await fetch(`${API_URL}/api/orders`, {
