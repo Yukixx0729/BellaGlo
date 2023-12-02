@@ -85,7 +85,7 @@ router.put("/update/:cartId", async (req: Request, res: Response) => {
     console.log(exisitingCart);
     if (exisitingCart) {
       const index = exisitingCart.product.findIndex(
-        (product) => product === productId
+        (product: any) => product === productId
       );
       console.log(index);
       if (index !== -1) {
