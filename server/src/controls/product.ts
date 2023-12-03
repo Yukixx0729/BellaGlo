@@ -72,7 +72,8 @@ router.get("/sale", async (req: Request, res: Response) => {
       res.status(404).json({ message: "not product found" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Not found" });
+    console.log(error);
+    res.status(500).json(error);
   }
 });
 
@@ -100,6 +101,7 @@ router.get("/series/:series", async (req: Request, res: Response) => {
       res.status(404).json({ message: "not product found" });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Not found" });
   }
 });

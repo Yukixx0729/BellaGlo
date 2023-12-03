@@ -1,5 +1,11 @@
 # BellaGlo (skincare e-commerce)
 
+### **Live demo**
+
+---
+
+Check out <https://bella-glo.vercel.app/> for live demo.
+
 ### **Technologies used**
 
 ---

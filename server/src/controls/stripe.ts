@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const router = express.Router();
 const stripe = require("stripe")(process.env.STRIPE_KEY);
 const prisma = new PrismaClient();
-const domain = "http://localhost:5173/pending";
+const domain = "https://bella-glo.vercel.app/pending";
 
 router.post("/", async (req: Request, res: Response) => {
   const { price, orderId } = req.body;

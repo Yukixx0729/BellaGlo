@@ -65,6 +65,7 @@ model Product {
   imgURL String
   orders   ProductOrder[]
   lists  FavProduct[]
+  @@map("product")
 }
 
 model ProductOrder {
