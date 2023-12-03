@@ -16,6 +16,7 @@ type ProductType = {
 };
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 function Products() {
+  const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
   const user = useUser();
   const { addToCartWithUser } = useCart();
@@ -25,6 +26,7 @@ function Products() {
   useEffect(() => {
     const getAllProducts = async (type: string) => {
       try {
+        setIsPending(true);
         if (type === "sale") {
           const res = await fetch(`${API_URL}/api/products/sale`);
           const data = await res.json();
@@ -35,6 +37,7 @@ function Products() {
           const data = await res.json();
           setProducts(data);
         }
+        setIsPending(false);
       } catch (error) {
         console.error("Error in fetch:", error);
       }
@@ -84,6 +87,7 @@ function Products() {
         <h3 className="py-2 px-3">{type}</h3>
       </div>
       <div className="products d-flex flex-row gap-3 flex-wrap mx-4">
+        {isPending && <p className="tips">Loading...</p>}
         {products &&
           products.map((product) => {
             return (

@@ -27,16 +27,17 @@ const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 function MyOrders() {
   const [orders, setOrders] = useState<OrderType[] | null>(null);
   const user = useUser();
-
+  const [isPending, setIsPending] = useState(false);
   useEffect(() => {
     const fetchOrders = async () => {
+      setIsPending(true);
       if (user.user && user.user.id) {
         const userInfo = await findUser(`${user.user.id}`);
 
         const res = await fetch(`${API_URL}/api/orders/user/${userInfo.id}`);
         const data = await res.json();
         setOrders(data);
-        console.log(data);
+        setIsPending(false);
       }
     };
     fetchOrders();
@@ -45,8 +46,9 @@ function MyOrders() {
   return (
     <div className="orders-display mx-3 my-3">
       <h2 className="text-center">My orders</h2>
-
-      {orders && orders.length ? (
+      {isPending && <p className="tips">Loading...</p>}
+      {orders &&
+        orders.length &&
         orders.map((order: OrderType) => {
           return (
             <div key={order.id} className="my-4 mx-2">
@@ -79,7 +81,10 @@ function MyOrders() {
                     <h5>Products</h5>
                     {order.products.map((product) => {
                       return (
-                        <li className="list-group-item">
+                        <li
+                          className="list-group-item"
+                          key={product.product.id}
+                        >
                           1 X {product.product.name}
                         </li>
                       );
@@ -89,8 +94,8 @@ function MyOrders() {
               </ul>
             </div>
           );
-        })
-      ) : (
+        })}
+      {orders && orders.length === 0 && (
         <p className="tips">You haven't orderd anything yet.</p>
       )}
     </div>

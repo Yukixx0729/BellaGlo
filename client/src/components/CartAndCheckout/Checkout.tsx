@@ -70,7 +70,7 @@ function CheckOut() {
 
     const { id } = user && user.user ? await findUser(`${user.user.id}`) : null;
     orderDetails["userId"] = id;
-    console.log(orderDetails);
+
     const res = await fetch(`${API_URL}/api/orders`, {
       method: "POST",
       headers: {
@@ -79,14 +79,14 @@ function CheckOut() {
       body: JSON.stringify(orderDetails),
     });
     const data = await res.json();
-    console.log(data.id);
+
     if (res.status !== 201) {
       throw {
         status: res.status,
         message: data.message,
       };
     }
-    console.log(orderDetails);
+
     if (formRef.current) {
       formRef.current.reset();
     }

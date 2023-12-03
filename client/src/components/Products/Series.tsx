@@ -22,6 +22,7 @@ const seriesPic = [
 ];
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 function Series() {
+  const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
   const { series } = useParams();
   const user = useUser();
@@ -33,10 +34,12 @@ function Series() {
   useEffect(() => {
     const getAllData = async (series: string) => {
       try {
+        setIsPending(true);
         const res = await fetch(`${API_URL}/api/products/series/${series}`);
         const data = await res.json();
-        console.log(data);
+
         setSeriesData(data);
+        setIsPending(false);
       } catch (error) {
         console.error("Error in fetch:", error);
       }
@@ -88,6 +91,7 @@ function Series() {
         <img src={img[0].src} className="w-50 h-50 " />
       </div>
       <div className="products d-flex flex-row gap-3 flex-wrap mx-4">
+        {isPending && <p className="tips">Loading...</p>}
         {seriesData &&
           seriesData.map((product) => {
             return (

@@ -29,7 +29,7 @@ function App() {
       <ClerkProvider publishableKey={publishableKey}>
         <CartProvider>
           <div className="header-color text-center py-2">
-            Free delivery national wide over $99{" "}
+            Free delivery nationwide over $99{" "}
           </div>
 
           <Nav />

@@ -19,16 +19,19 @@ export type List = {
 };
 const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 function MySaved() {
+  const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
   const [list, setList] = useState<List[] | null>(null);
   const user = useUser();
   const { addToCartWithUser } = useCart();
   const fetchList = async () => {
+    setIsPending(true);
     if (user.user && user.user.id) {
       const userInfo = await findUser(`${user.user.id}`);
       console.log(userInfo.fav[0].list);
       setList(userInfo.fav[0].list);
     }
+    setIsPending(false);
   };
   useEffect(() => {
     fetchList();
@@ -46,9 +49,10 @@ function MySaved() {
   return (
     <div className="mx-3 my-3 saved-items ">
       <h3 className="text-center ">My Items</h3>
-
+      {isPending && <p className="tips">Loading...</p>}
       <div>
-        {list && list.length ? (
+        {list &&
+          list.length &&
           list.map((item) => {
             return (
               <div
@@ -103,8 +107,8 @@ function MySaved() {
                 </div>
               </div>
             );
-          })
-        ) : (
+          })}
+        {list && list.length === 0 && (
           <div className="tips">You haven't saved any products yet.</div>
         )}
       </div>

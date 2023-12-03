@@ -18,6 +18,7 @@ type ProductType = {
 };
 
 function ProductDetail() {
+  const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
   const user = useUser();
   const [isFav, setIsFav] = useState(false);
@@ -29,9 +30,11 @@ function ProductDetail() {
 
   useEffect(() => {
     const handleProductClick = async (id: string) => {
+      setIsPending(true);
       const res = await fetch(`${API_URL}/api/products/id/${id}`);
       const data = await res.json();
       setProductDetails(data);
+      setIsPending(false);
     };
     handleProductClick(`${productId}`);
   }, []);
@@ -78,6 +81,7 @@ function ProductDetail() {
     <div>
       <h2 className="py-3 px-5 brand-type mt-3">BellaGlo.</h2>
       <div className="my-3 container ">
+        {isPending && <p className="tips">Loading...</p>}
         {productDetails && (
           <div className="d-flex flex-row justify-content-between gap-5 details-container">
             {" "}

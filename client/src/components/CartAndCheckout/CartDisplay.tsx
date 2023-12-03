@@ -19,6 +19,7 @@ type PriceType = {
 };
 
 function CartDisplay() {
+  const [isPending, setIsPending] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCartWithUser, removeProduct } = useCart();
@@ -55,6 +56,7 @@ function CartDisplay() {
 
   useEffect(() => {
     const fetchCartData = async (id: string) => {
+      setIsPending(true);
       const res = await fetch(`${API_URL}/api/cart/${id}`);
       const data = await res.json();
 
@@ -85,6 +87,7 @@ function CartDisplay() {
         }
       });
       setProductData(sortedProduct);
+      setIsPending(false);
     };
     fetchCartData(`${id}`);
   }, []);
@@ -118,7 +121,9 @@ function CartDisplay() {
   return (
     <div className="d-flex flex-column  my-4 mx-5 shopping-cart">
       <h2 className="cart-header ">My Cart</h2>
-      {productData && productData.length ? (
+      {isPending && <p className="tips">Loading...</p>}
+      {productData &&
+        productData.length &&
         productData.map((product) => {
           if (product.count > 0) {
             return (
@@ -167,10 +172,7 @@ function CartDisplay() {
               </div>
             );
           }
-        })
-      ) : (
-        <div className="tips">Nothing in your cart yet.</div>
-      )}
+        })}
       {productData && productData.length ? (
         <div className="d-flex flex-column justify-content-end align-items-end px-2">
           <p>Amount: ${price && price.amount}</p>
@@ -187,6 +189,9 @@ function CartDisplay() {
           >
             Check out
           </button>
+          {productData && productData.length === 0 && (
+            <div className="tips">Nothing in your cart yet.</div>
+          )}
         </div>
       ) : null}
     </div>
