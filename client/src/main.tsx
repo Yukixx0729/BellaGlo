@@ -5,7 +5,7 @@ import "./scss/styles.scss";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
-  <BrowserRouter basename="/subdirectory">
+  <BrowserRouter>
     {" "}
     <App />
   </BrowserRouter>

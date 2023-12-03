@@ -14,6 +14,16 @@ type ProductData = {
   count: number;
 };
 
+type orderDetailsType = {
+  name: string;
+  address: string;
+  amount: number;
+  phone: string;
+  note: string;
+  products: Product[];
+  userId: string;
+};
+
 type Product = {
   productId: string;
 };
@@ -25,26 +35,42 @@ function CheckOut() {
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let orderDetails: orderDetailsType = {
+      name: "",
+      address: "",
+      phone: "",
+      note: "",
+      products: [],
+      userId: "",
+      amount: 0,
+    };
     const products: Product[] = [];
     location.state.productData.map((product: ProductData) => {
       if (product.count) products.push({ productId: product.id });
     });
 
-    const orderDetails = Object.fromEntries(new FormData(e.currentTarget));
-    orderDetails["products"] = JSON.stringify(products);
+    const formData = new FormData(e.currentTarget);
+    const details: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      details[key] = value as string;
+    });
+
+    orderDetails.name = details.name || "";
+    orderDetails.address = details.address || "";
+    orderDetails.phone = details.phone || "";
+    orderDetails.note = details.note || "";
+    orderDetails["products"] = products;
     if (location.state.price.total >= 99) {
-      orderDetails["amount"] = Math.round(
-        location.state.price.total * 100
-      ).toString();
+      orderDetails["amount"] = Math.round(location.state.price.total * 100);
     } else {
       orderDetails["amount"] = Math.round(
         (Number(location.state.price.amount) + 15) * 1.1 * 100
-      ).toString();
+      );
     }
 
     const { id } = user && user.user ? await findUser(`${user.user.id}`) : null;
     orderDetails["userId"] = id;
-
+    console.log(orderDetails);
     const res = await fetch(`${API_URL}/api/orders`, {
       method: "POST",
       headers: {
@@ -60,7 +86,7 @@ function CheckOut() {
         message: data.message,
       };
     }
-
+    console.log(orderDetails);
     if (formRef.current) {
       formRef.current.reset();
     }
