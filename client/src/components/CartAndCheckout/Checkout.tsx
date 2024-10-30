@@ -169,16 +169,31 @@ function CheckOut() {
             onSubmit={(e) => handleOnSubmit(e)}
           >
             <div>
-              <label className="form-label">Recevier Name: </label>
-              <input type="text" name="name" className="form-control" />
+              <label className="form-label">Recevier Name*</label>
+              <input
+                type="text"
+                name="name"
+                className="form-control"
+                required
+              />
             </div>
             <div>
-              <label className="form-label">Recevier Address</label>
-              <input type="text" name="address" className="form-control" />
+              <label className="form-label">Recevier Address*</label>
+              <input
+                type="text"
+                name="address"
+                className="form-control"
+                required
+              />
             </div>
             <div>
-              <label className="form-label">Recevier Phone</label>
-              <input type="text" name="phone" className="form-control" />
+              <label className="form-label">Recevier Phone*</label>
+              <input
+                type="text"
+                name="phone"
+                className="form-control"
+                required
+              />
             </div>
             <div>
               {" "}
